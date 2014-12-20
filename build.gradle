@@ -1,0 +1,114 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    // https://github.com/andrewkroh/gradle-protobuf-plugin
+    classpath 'com.andrewkroh.gradle:gradle-protobuf-plugin:0.4.0'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
+  }
+}
+
+apply plugin: 'protobuf'
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+repositories {
+  jcenter()
+}
+
+version = "0.1.0"
+group = "net.alchim31.pgex"
+def description = "an experimental game exchange format for 3d data, based on protobuf"
+
+// Optional configuration:
+protobuf {
+  // Explicitly setting protocol buffers version
+  // so that the build will fail if this specific
+  // version of the compiler is not present.
+  //version = '2.6.1'
+}
+
+task sourcesProto(type: Jar) {
+  from 'src/main/proto'
+  classifier = 'proto'
+}
+
+task sourcesJava(type: Jar) {
+  from 'build/generated/java'
+	//from sourceSets.main.allSource
+	classifier = 'sources'
+}
+
+task sourcesCpp(type: Zip) {
+	from 'build/generated/cpp'
+	classifier = 'cpp'
+}
+
+task sourcesPython(type: Zip) {
+  from 'build/generated/python'
+  classifier = 'python'
+}
+
+def pomConfig = {
+	licenses {
+		license {
+			name "Public domain (CC0-1.0)"
+			url "http://creativecommons.org/publicdomain/zero/1.0/"
+			distribution "repo"
+		}
+	}
+	developers {
+		developer {
+			id "davidB"
+			name "David Bernard"
+		}
+	}
+}
+
+publishing {
+	publications {
+		mavenStuff(MavenPublication) {
+			from components.java
+      artifact sourcesProto
+			//artifact sourcesJava
+      artifact sourcesCpp
+      artifact sourcesPython
+			pom.withXml {
+				def root = asNode()
+				root.appendNode('description', description)
+				root.children().last() + pomConfig
+			}
+		}
+	}
+}
+
+bintray {
+	user = bintray_user
+	key = bintray_api_key
+
+	publications = ['mavenStuff'] //When uploading Maven-based publication files
+	//dryRun = false //Whether to run this as dry-run, without deploying
+	publish = true //If version should be auto published after an upload
+	pkg {
+		repo = 'maven'
+		name = project.name
+		desc = description
+		websiteUrl = "https://github.com/davidB/${project.name}"
+		issueTrackerUrl = "https://github.com/davidB/${project.name}/issues"
+		vcsUrl = "https://github.com/davidB/${project.name}.git"
+		licenses = ['CC0-1.0']
+		//labels = ['']
+		publicDownloadNumbers = true
+		version {
+			name = project.version
+			vcsTag = project.version
+			//attributes = [] //Optional version-level attributes
+			//gpg {
+			//	sign = true //Determines whether to GPG sign the files. The default is false
+			//	passphrase = 'optional, the passphrase for GPG signing'
+			//}
+		}
+	}
+}

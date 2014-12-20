@@ -1,0 +1,9 @@
+package pgex;
+option optimize_for = LITE_RUNTIME;
+
+//message MEnvelop {
+//  optional MRoundTrip mRoundTrip = 1;
+//  optional MAuth mAuth = 2;
+//  optional MChat mChat = 3;
+//  optional MEntity mEntity = 4;
+//}

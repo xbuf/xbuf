@@ -1,0 +1,41 @@
+package pgex;
+option optimize_for = LITE_RUNTIME;
+
+message Vec3 {
+  required float x = 1;
+  required float y = 2;
+  required float z = 3;
+}
+
+message Vec4 {
+  required float x = 1;
+  required float y = 2;
+  required float z = 3;
+  required float w = 4;
+}
+
+message Quaternion {
+  required float x = 1;
+  required float y = 2;
+  required float z = 3;
+  required float w = 4;
+}
+
+message Mat4 {
+  required float c00 = 1;
+  required float c10 = 2;
+  required float c20 = 3;
+  required float c30 = 4;
+  required float c01 = 5;
+  required float c11 = 6;
+  required float c21 = 7;
+  required float c31 = 8;
+  required float c02 = 9;
+  required float c12 = 10;
+  required float c22 = 11;
+  required float c32 = 12;
+  required float c03 = 13;
+  required float c13 = 14;
+  required float c23 = 15;
+  required float c33 = 16;
+}

@@ -1,0 +1,16 @@
+package pgex;
+option optimize_for = LITE_RUNTIME;
+
+import public "math.proto";
+
+message Cmd {
+  oneof cmd {
+    SetCamera setCamera = 1;
+  }
+}
+
+message SetCamera {
+  required Vec3       location = 1;
+  required Quaternion rotation = 2;
+  required Mat4       projection = 3;
+}
