@@ -5,7 +5,7 @@ import public "math.proto";
 
 message Cmd {
   oneof cmd {
-    SetCamera setCamera = 1;
+    SetCamera setCamera = 2;
   }
 }
 

@@ -1,6 +1,22 @@
 package pgex;
 option optimize_for = LITE_RUNTIME;
 
+// message Metrics {
+//   /// indicates that the metric defines the factor by which all distance values should be multiplied to obtain a value measured in meters.
+//   optional float distance = 1 [default = 1.0];
+//   /// indicates that the metric defines the factor by which all angle values should be multiplied to obtain a value measured in radians.
+//   optional float angle = 2 [default = 1.0];
+//   ///indicates that the metric defines the factor by which all time values should be multiplied to obtain a value measured in seconds.
+//   optional float time = 3 [default = 1.0];
+//   ///indicates that the metric defines the world-space axis that corresponds to the up direction.
+//   enum Direction {
+//     X = 0;
+//     Y = 1;
+//     Z = 2;
+//   }
+//   optional Direction up = 4 [default = Z];
+// }
+
 message Vec3 {
   required float x = 1;
   required float y = 2;
