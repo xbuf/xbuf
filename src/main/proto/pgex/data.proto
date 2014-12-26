@@ -1,0 +1,171 @@
+package pgex;
+option optimize_for = LITE_RUNTIME;
+
+message Data {
+  /// version of the protocol / data format. readonly !!
+  required uint32 version = 1 [default = 1];
+  repeated Relation relations = 2;
+  repeated Node nodes = 3;
+  repeated GeometryObject geometries = 4;
+  //repeated Material materials = 3;
+}
+
+message Relation {
+  required string src = 1;
+  required string dest = 2;
+  optional string label = 3;
+}
+
+// message Metrics {
+//   /// indicates that the metric defines the factor by which all distance values should be multiplied to obtain a value measured in meters.
+//   optional float distance = 1 [default = 1.0];
+//   /// indicates that the metric defines the factor by which all angle values should be multiplied to obtain a value measured in radians.
+//   optional float angle = 2 [default = 1.0];
+//   ///indicates that the metric defines the factor by which all time values should be multiplied to obtain a value measured in seconds.
+//   optional float time = 3 [default = 1.0];
+//   ///indicates that the metric defines the world-space axis that corresponds to the up direction.
+//   enum Direction {
+//     X = 0;
+//     Y = 1;
+//     Z = 2;
+//   }
+//   optional Direction up = 4 [default = Z];
+// }
+
+message GeometryObject {
+  required string id = 1;
+  repeated Mesh meshes = 2;
+  //repeated Morph morphs = 3 [packed=true];
+  //visible bool true Whether the geometry is visible.
+  //If the visible property is false, then the geometry should not be rendered but should still
+  //shadow bool true Whether the geometry casts shadows.
+  //motion_blur bool true Whether the geometry is rendered with motion blur.
+}
+
+message Mesh {
+  enum Primitive {
+    /// "points" The mesh is composed of a set of independent points. The number of points is n, and point i is given by vertex i.
+    points = 1;
+    /// "lines" The mesh is composed of a set of independent lines. The number of lines is n / 2 , and line i is composed of vertices 2i and 2i+1 .
+    lines = 2;
+    /// "line_strip" The mesh is composed of one or more line strips. The number of lines is  n - 1 , and line i is composed of vertices i and i + 1 .
+    line_strip = 3;
+    /// "triangles" The mesh is composed of a set of independent triangles. The number of triangles is n/3 , and triangle i is composed of vertices 3i , 3i + 1 , and 3i + 2.
+    triangles = 4;
+    /// "triangle_strip" The mesh is composed of one or more triangle strips. The number of triangles is n - 2 , and triangle i is composed of vertices i, i + 1 , and i + 2 when i is even or vertices i, i + 2 , and i + 1 when i is odd, in the orders listed.
+    triangle_strip = 5;
+    /// "quads" The mesh is composed of a set of individual quads. The number of quads is n/4 , and quad i is composed of vertices 4i , 4i + 1 , 4i + 2 , and 4i + 3 .
+    quads = 6;
+  }
+  required string id = 1;
+  required Primitive primitive = 2;
+  required uint32 lod = 3 [default = 0];
+  repeated VertexArray vertexArrays = 4;
+  repeated IndexArray indexArrays = 5;
+  // optional Skin skin = 6;
+}
+
+message VertexArray {
+  enum Attrib {
+    position = 1;
+    normal = 2;
+    tangent = 3;
+    bitangent = 4;
+    color = 5;
+    texcoord = 6;
+  }
+  required Attrib attrib = 1;
+  required uint32 morph = 2 [default = 0];
+  oneof buffer {
+    FloatBuffer floats = 3;
+    DoubleBuffer doubles = 4;
+  }
+}
+
+message IndexArray {
+
+}
+
+message FloatBuffer {
+  repeated float values = 1 [packed = true];
+  /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
+  required uint32 step = 2 [default = 1];
+}
+message DoubleBuffer {
+  repeated double values = 1 [packed = true];
+  /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
+  required uint32 step = 2 [default = 1];
+}
+message UintBuffer {
+  repeated uint32 values = 1 [packed = true];
+  /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
+  required uint32 step = 2 [default = 1];
+}
+
+// message Skin {
+//   optional Transform transform = 2;
+//   required Skeleton skeleton = 3;
+//   required BoneCountArray boneCountArray= 4;
+//   required BoneIndexArray boneIndexArray = 5;
+//   required BoneWeightArray boneWeightArray = 6;
+// }
+
+message Node {
+  required string id = 1;
+  repeated Transform transforms = 2;
+  /// id of the parent node. if undefined root of the scene is the parent
+  optional string parentId = 3;
+}
+
+message Transform {
+  required Vec3 translation = 1;
+  required Quaternion rotation = 2;
+  required Vec3 scale = 3;
+}
+
+// message Morph {
+//   required string id = 1;
+//   /// the morph targer index
+//   required uint32 index = 2 [default = 0];
+//   /// the base morph target index for relative morph target.
+//   optional uint32 base = 3;
+// }
+message Vec3 {
+  required float x = 1;
+  required float y = 2;
+  required float z = 3;
+}
+
+message Vec4 {
+  required float x = 1;
+  required float y = 2;
+  required float z = 3;
+  required float w = 4;
+}
+
+/// Quaternion should be normalized
+message Quaternion {
+  required float x = 1;
+  required float y = 2;
+  required float z = 3;
+  required float w = 4;
+}
+
+message Mat4 {
+  required float c00 = 1;
+  required float c10 = 2;
+  required float c20 = 3;
+  required float c30 = 4;
+  required float c01 = 5;
+  required float c11 = 6;
+  required float c21 = 7;
+  required float c31 = 8;
+  required float c02 = 9;
+  required float c12 = 10;
+  required float c22 = 11;
+  required float c32 = 12;
+  required float c03 = 13;
+  required float c13 = 14;
+  required float c23 = 15;
+  required float c33 = 16;
+}

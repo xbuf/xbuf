@@ -68,7 +68,8 @@ see discussion [glTF : unify scenes axis-up](https://github.com/KhronosGroup/glT
 * see *Why no configurable metrics (like in OpenGEX) ?* (above)
 * To avoid branch in loader code like in this [response on unity forum](http://answers.unity3d.com/questions/46589/zup-yup-xup-handedness-space-conversion.html)
 
-### Why no transform matrix ?
+### Why no transform matrix, variant of Rotation, Scale ?
 
+* see *Why no configurable metrics (like in OpenGEX) ?* (above)
 * I don't want too freedom (simple loader, more work on exporter), so I have to choose between matrix or translation / rotation / scale
 * Extracting translation / rotation / scale from a 4×4 matrix is harder than creating a 4×4 matrix from translation / rotation / scale is much easier.

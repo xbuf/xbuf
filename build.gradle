@@ -29,6 +29,12 @@ protobuf {
   // version of the compiler is not present.
   //version = '2.6.1'
 }
+task compilePython(type: Copy) {
+  from "src/main/python"
+  into "build/generated/python"
+}
+compilePython.dependsOn('compileProto')
+assemble.dependsOn(compilePython)
 
 task sourcesProto(type: Jar) {
   from 'src/main/proto'
@@ -36,18 +42,18 @@ task sourcesProto(type: Jar) {
 }
 
 task sourcesJava(type: Jar) {
-  from 'build/generated/java'
+  from "build/generated/java"
 	//from sourceSets.main.allSource
 	classifier = 'sources'
 }
 
 task sourcesCpp(type: Zip) {
-	from 'build/generated/cpp'
+  from "build/generated/cpp"
 	classifier = 'cpp'
 }
 
 task sourcesPython(type: Zip) {
-  from 'build/generated/python'
+  from "build/generated/python"
   classifier = 'python'
 }
 
