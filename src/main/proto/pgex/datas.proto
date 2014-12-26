@@ -83,7 +83,9 @@ message VertexArray {
 }
 
 message IndexArray {
-
+  oneof buffer {
+    UintBuffer ints = 1;
+  }
 }
 
 message FloatBuffer {

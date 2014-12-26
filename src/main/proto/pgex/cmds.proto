@@ -5,11 +5,16 @@ import public "pgex/datas.proto";
 
 message Cmd {
   oneof cmd {
-    SetCamera setCamera = 2;
+    /// use to define eye (the virtual camera used to render viewport)
+    SetEye setEye= 2;
+    /// use to set (add/update/merge) data into the scene, model, animation, ...
+    Data setData = 3;
+    /// use to delete data from a scene, model, animation, ...
+    Data unsetData = 4;
   }
 }
 
-message SetCamera {
+message SetEye {
   required Vec3       location = 1;
   required Quaternion rotation = 2;
   required Mat4       projection = 3;
