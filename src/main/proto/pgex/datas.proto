@@ -3,11 +3,15 @@ option optimize_for = LITE_RUNTIME;
 
 message Data {
   /// version of the protocol / data format. readonly !!
-  required uint32 version = 1 [default = 1];
+  optional uint32 version = 1 [default = 1];
   repeated Relation relations = 2;
   repeated Node nodes = 3;
   repeated GeometryObject geometries = 4;
   //repeated Material materials = 3;
+
+  /// reserved for application specific data, no requirement to be managed by others application.
+  /// Only require to avoid collision in index.
+  extensions 500 to 2000;
 }
 
 message Relation {
@@ -54,12 +58,10 @@ message Mesh {
     triangles = 4;
     /// "triangle_strip" The mesh is composed of one or more triangle strips. The number of triangles is n - 2 , and triangle i is composed of vertices i, i + 1 , and i + 2 when i is even or vertices i, i + 2 , and i + 1 when i is odd, in the orders listed.
     triangle_strip = 5;
-    /// "quads" The mesh is composed of a set of individual quads. The number of quads is n/4 , and quad i is composed of vertices 4i , 4i + 1 , 4i + 2 , and 4i + 3 .
-    quads = 6;
   }
   required string id = 1;
   required Primitive primitive = 2;
-  required uint32 lod = 3 [default = 0];
+  optional uint32 lod = 3 [default = 0];
   repeated VertexArray vertexArrays = 4;
   repeated IndexArray indexArrays = 5;
   // optional Skin skin = 6;
@@ -73,12 +75,20 @@ message VertexArray {
     bitangent = 4;
     color = 5;
     texcoord = 6;
+    texcoord2 = 7;
+    texcoord3 = 8;
+    texcoord4 = 9;
+    texcoord5 = 10;
+    texcoord6 = 11;
+    texcoord7 = 12;
+    texcoord8 = 13;
+    texcoord9 = 14;
   }
   required Attrib attrib = 1;
-  required uint32 morph = 2 [default = 0];
+  optional uint32 morph = 2 [default = 0];
   oneof buffer {
     FloatBuffer floats = 3;
-    DoubleBuffer doubles = 4;
+    //DoubleBuffer doubles = 4;
   }
 }
 
@@ -93,11 +103,11 @@ message FloatBuffer {
   /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
   required uint32 step = 2 [default = 1];
 }
-message DoubleBuffer {
-  repeated double values = 1 [packed = true];
-  /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
-  required uint32 step = 2 [default = 1];
-}
+// message DoubleBuffer {
+//   repeated double values = 1 [packed = true];
+//   /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
+//   required uint32 step = 2 [default = 1];
+// }
 message UintBuffer {
   repeated uint32 values = 1 [packed = true];
   /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
