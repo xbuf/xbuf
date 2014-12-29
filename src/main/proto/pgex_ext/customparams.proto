@@ -1,0 +1,30 @@
+package pgex_ext;
+option optimize_for = LITE_RUNTIME;
+
+import public "pgex/datas.proto";
+
+extend pgex.Data {
+  /// reserved for application specific data, no requirement to be managed by others application.
+  repeated CustomParams customParams = 500;
+}
+
+message CustomParams {
+  required string id = 1;
+  repeated CustomParam params = 2;
+}
+
+message CustomParam {
+  required string name = 1;
+  oneof value {
+    pgex.Color color = 2;
+    float float = 3;
+    int32 int = 4;
+    pgex.Vec2 vec2 = 5;
+    pgex.Vec3 vec3 = 6;
+    pgex.Vec4 vec4 = 7;
+    pgex.Quaternion quat = 8;
+    pgex.Mat4 mat4 = 9;
+    string string = 10;
+    pgex.Texture texture = 11;
+  }
+}
