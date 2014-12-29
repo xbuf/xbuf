@@ -118,32 +118,32 @@ message Material {
   optional string family = 3;
 }
 
-enum MaterialAttrib {
-  /// base color could be used for unshaded, or as base color in PBR, or as diffuse
-  color = 1;
-  roughness = 2;
-  metalness = 3;
-  specular = 4;
-  specular_power = 5;
-  emission = 6;
-  opacity = 7;
-  //transparency = 8;
-  normal = 9;
-}
-
 message MaterialParam {
-  required MaterialAttrib attrib = 1;
+  enum Attrib {
+    /// base color could be used for unshaded, or as base color in PBR, or as diffuse
+    color = 1;
+    roughness = 2;
+    metalness = 3;
+    specular = 4;
+    specular_power = 5;
+    emission = 6;
+    opacity = 7;
+    //transparency = 8;
+    normal = 9;
+  }
+  required Attrib attrib = 1;
   oneof value {
-    Color color = 2;
-    float float = 3;
-    int32 int = 4;
-    Vec2 vec2 = 5;
-    Vec3 vec3 = 6;
-    Vec4 vec4 = 7;
-    Quaternion quat = 8;
-    Mat4 mat4 = 9;
-    string string = 10;
-    Texture texture = 11;
+    Color vcolor = 2;
+    float vfloat = 3;
+    int32 vint = 4;
+    Vec2 vvec2 = 5;
+    Vec3 vvec3 = 6;
+    Vec4 vvec4 = 7;
+    Quaternion vquat = 8;
+    Mat4 vmat4 = 9;
+    string vstring = 10;
+    Texture vtexture = 11;
+    bool vbool = 12;
   }
 }
 
