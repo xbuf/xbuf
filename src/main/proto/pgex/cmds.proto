@@ -11,6 +11,8 @@ message Cmd {
     Data setData = 3;
     /// use to delete data from a scene, model, animation, ...
     DeleteData deleteData = 4;
+    /// use to delete data from a scene, model, animation, ...
+    ChangeAssetFolders changeAssetFolders = 5;
   }
 }
 
@@ -22,9 +24,20 @@ message SetEye {
   optional float      far = 6;
 }
 
+message ChangeAssetFolders {
+  /// a list of local folder path
+  repeated string     path = 1;
+  /// true => register path as a root folder for assets, false => unregister/remove path as a root folder
+  optional bool       register = 2 [default = true];
+  /// should try to unregister every other root folders for assets ?
+  optional bool       unregisterOther = 3 [default = false];
+}
+
 message DeleteData {
   /// the list of id of object to delete, including relation where the object is part of.
   repeated string refs = 1;
   /// the list relation to delete, the object part of the relation can continue to exist.
   repeated Relation relations = 2;
+  /// set to true to remove all Data
+  optional bool all = 3 [default = false];
 }
