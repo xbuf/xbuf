@@ -10,7 +10,7 @@ message Cmd {
     /// use to set (add/update/merge) data into the scene, model, animation, ...
     Data setData = 3;
     /// use to delete data from a scene, model, animation, ...
-    Data unsetData = 4;
+    DeleteData deleteData = 4;
   }
 }
 
@@ -20,4 +20,11 @@ message SetEye {
   optional Mat4       projection = 3;
   optional float      near = 5;
   optional float      far = 6;
+}
+
+message DeleteData {
+  /// the list of id of object to delete, including relation where the object is part of.
+  repeated string refs = 1;
+  /// the list relation to delete, the object part of the relation can continue to exist.
+  repeated Relation relations = 2;
 }
