@@ -2,39 +2,29 @@ package pgex;
 option optimize_for = LITE_RUNTIME;
 
 message Data {
-  /// version of the protocol / data format. readonly !!
-  optional uint32 version = 1 [default = 1];
+  /// version of the protocol / data format. readonly !! (== the major of the pgex project version)
+  optional uint32 version = 1 [default = 0];
   repeated Relation relations = 2;
   repeated Node nodes = 3;
   repeated GeometryObject geometries = 4;
-  //repeated Material materials = 3;
+  repeated Material materials = 5;
 
   /// reserved for application specific data, no requirement to be managed by others application.
   /// Only require to avoid collision in index.
   extensions 500 to 2000;
 }
 
+/// Define a Relation (edge, link) between two objects with an id
+/// rules:
+/// * typename of obj with id == ref1 < typename of obj with id == ref2
 message Relation {
-  required string src = 1;
-  required string dest = 2;
+  /// reference the id of object 1
+  required string ref1 = 1;
+  /// reference the id of object 1
+  required string ref2 = 2;
+  /// mainly for description but often useless
   optional string label = 3;
 }
-
-// message Metrics {
-//   /// indicates that the metric defines the factor by which all distance values should be multiplied to obtain a value measured in meters.
-//   optional float distance = 1 [default = 1.0];
-//   /// indicates that the metric defines the factor by which all angle values should be multiplied to obtain a value measured in radians.
-//   optional float angle = 2 [default = 1.0];
-//   ///indicates that the metric defines the factor by which all time values should be multiplied to obtain a value measured in seconds.
-//   optional float time = 3 [default = 1.0];
-//   ///indicates that the metric defines the world-space axis that corresponds to the up direction.
-//   enum Direction {
-//     X = 0;
-//     Y = 1;
-//     Z = 2;
-//   }
-//   optional Direction up = 4 [default = Z];
-// }
 
 message GeometryObject {
   required string id = 1;
@@ -122,6 +112,41 @@ message UintBuffer {
 //   required BoneWeightArray boneWeightArray = 6;
 // }
 
+message Material {
+  required string id = 1;
+  repeated MaterialParam params = 2;
+  optional string family = 3;
+}
+
+enum MaterialAttrib {
+  /// base color could be used for unshaded, or as base color in PBR, or as diffuse
+  color = 1;
+  roughness = 2;
+  metalness = 3;
+  specular = 4;
+  specular_power = 5;
+  emission = 6;
+  opacity = 7;
+  //transparency = 8;
+  normal = 9;
+}
+
+message MaterialParam {
+  required MaterialAttrib attrib = 1;
+  oneof value {
+    Color color = 2;
+    float float = 3;
+    int32 int = 4;
+    Vec2 vec2 = 5;
+    Vec3 vec3 = 6;
+    Vec4 vec4 = 7;
+    Quaternion quat = 8;
+    Mat4 mat4 = 9;
+    string string = 10;
+    Texture texture = 11;
+  }
+}
+
 message Node {
   required string id = 1;
   repeated Transform transforms = 2;
@@ -142,6 +167,11 @@ message Transform {
 //   /// the base morph target index for relative morph target.
 //   optional uint32 base = 3;
 // }
+message Vec2 {
+  required float x = 1;
+  required float y = 2;
+}
+
 message Vec3 {
   required float x = 1;
   required float y = 2;
@@ -153,6 +183,35 @@ message Vec4 {
   required float y = 2;
   required float z = 3;
   required float w = 4;
+}
+
+message Color {
+  required float r = 1;
+  required float g = 2;
+  required float b = 3;
+  required float a = 4;
+}
+
+
+message Texture {
+  optional string name = 1;
+  oneof data {
+    /// path of the texture relative to asset root folder (use '/' as folder separator)
+    string rpath = 2;
+    Texture2DInline tex2d = 3;
+  }
+}
+
+message Texture2DInline {
+  enum Format {
+    rgb8 = 1;
+    rgba8 = 2;
+    bgra8 = 3;
+  }
+  required Format format = 1;
+  required uint32 width = 2;
+  required uint32 height = 3;
+  required bytes data = 4;
 }
 
 /// Quaternion should be normalized
