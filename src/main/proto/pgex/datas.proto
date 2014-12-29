@@ -8,8 +8,10 @@ message Data {
   repeated Node nodes = 3;
   repeated GeometryObject geometries = 4;
   repeated Material materials = 5;
+  repeated Light lights = 6;
 
   /// reserved for application specific data, no requirement to be managed by others application.
+  /// eg: custom primitive properties, node material, particle, internal/private data to allow save/load
   /// Only require to avoid collision in index.
   extensions 500 to 2000;
 }
@@ -146,7 +148,61 @@ message MaterialParam {
     bool vbool = 12;
   }
 }
+message Light {
+  enum Kind {
+    ambient = 1;
+    directional = 2;
+    point = 3;
+    spot = 4;
+  }
+  required string id = 1;
+  optional Kind kind = 2 [default = directional];
+  optional Color color = 3;
+  optional float intensity = 4 [default = 1.0];
+  optional Attenuation attenuation = 5;
+  optional bool cast_shadow = 6 [default = false];
+  /// the direction of the light used by directional and spot (default is Z (forward like regular Node))
+  optional Vec3 direction = 7;
+}
 
+message Attenuation {
+  oneof kind {
+    bool distance = 1;
+    float angle = 2;
+    float cos_angle = 3;
+  }
+  oneof curve {
+    AttenuationLinear linear = 4;
+    AttenuationSmooth smooth = 5;
+    AttenuationInverse inverse = 6;
+    AttenuationInverseSquare inverse_square = 7;
+  }
+}
+message AttenuationLinear {
+  optional float begin = 4 [default = 0.0];
+  optional float end = 5 [default = 1.0];
+}
+message AttenuationSmooth {
+  optional float begin = 4 [default = 0.0];
+  optional float end = 5 [default = 1.0];
+}
+message AttenuationInverse {
+  optional float scale = 2 [default = 1.0];
+  optional float offset = 3 [default = 0.0];
+  optional float constant = 4 [default = 0.0];
+  optional float linear = 5 [default = 1.0];
+}
+message AttenuationInverseSquare {
+  optional float scale = 2 [default = 1.0];
+  optional float offset = 3 [default = 0.0];
+  optional float constant = 4 [default = 0.0];
+  optional float linear = 5 [default = 0.0];
+  optional float quadratic = 6 [default = 1.0];
+}
+
+message LightPoint {
+  required string id = 1;
+}
 message Node {
   required string id = 1;
   repeated Transform transforms = 2;
