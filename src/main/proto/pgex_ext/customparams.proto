@@ -16,15 +16,16 @@ message CustomParams {
 message CustomParam {
   required string name = 1;
   oneof value {
-    pgex.Color color = 2;
-    float float = 3;
-    int32 int = 4;
-    pgex.Vec2 vec2 = 5;
-    pgex.Vec3 vec3 = 6;
-    pgex.Vec4 vec4 = 7;
-    pgex.Quaternion quat = 8;
-    pgex.Mat4 mat4 = 9;
-    string string = 10;
-    pgex.Texture texture = 11;
+    bool vbool = 2;
+    string vstring = 3;
+    float vfloat = 4;
+    int32 vint = 5;
+    pgex.Vec2 vvec2 = 10;
+    pgex.Vec3 vvec3 = 11;
+    pgex.Vec4 vvec4 = 12;
+    pgex.Quaternion vquat = 13;
+    pgex.Mat4 vmat4 = 14;
+    pgex.Texture vtexture = 15;
+    pgex.Color vcolor = 16;
   }
 }
