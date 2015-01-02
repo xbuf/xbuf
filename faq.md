@@ -9,6 +9,7 @@
   * camera : Y up, Z lookAt direction, X left
   * orthogonal-axes
   * uniform axis unit
+  * front face: CCW (counter-clock-wise), back face: CW
 * distance unit : meter
 * time unit : second
 * angle unit : radian
