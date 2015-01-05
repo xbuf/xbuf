@@ -9,6 +9,8 @@ License : [Public domain (CC0-1.0)](http://creativecommons.org/publicdomain/zero
 
 * create importer/exporter for modeler, game engine, tool
 * create network exchange format between connected tool (eg : modeler <-> game engine with realtime rendering)
+  
+  [![jme in blender](http://img.youtube.com/vi/3pQd65_dkeM/0.jpg)](http://www.youtube.com/watch?v=3pQd65_dkeM)
 
 # Download
 
