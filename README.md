@@ -10,6 +10,14 @@ License : [Public domain (CC0-1.0)](http://creativecommons.org/publicdomain/zero
 * create importer/exporter for modeler, game engine, tool
 * create network exchange format between connected tool (eg : modeler <-> game engine with realtime rendering)
 
+# Download
+
+You can download files from [my repo](https://bintray.com/package/files/davidb/maven/pgex)
+
+* pgex-x.y.z-proto.zip : archive with .proto files
+* pgex-x.y.z-cpp.zip : archive with generated C++ source
+* pgex-x.y.z-python.zip : archive with the pgex modules (generated python)
+* pgex-x.y.z.jar : the java archive with generated .class
 
 # Documentation
 
