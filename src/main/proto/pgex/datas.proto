@@ -21,6 +21,7 @@ message Data {
 /// * typename of obj with id == ref1 < typename of obj with id == ref2
 message Relation {
   /// reference the id of object 1
+  ///@check ref1 != ref2
   required string ref1 = 1;
   /// reference the id of object 1
   required string ref2 = 2;
@@ -29,7 +30,7 @@ message Relation {
 }
 
 message Geometry {
-  /// identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
+  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
   required string id = 1;
   repeated Mesh meshes = 2;
   /// display name
@@ -54,11 +55,13 @@ message Mesh {
     /// "triangle_strip" The mesh is composed of one or more triangle strips. The number of triangles is n - 2 , and triangle i is composed of vertices i, i + 1 , and i + 2 when i is even or vertices i, i + 2 , and i + 1 when i is odd, in the orders listed.
     triangle_strip = 5;
   }
-  /// identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
+  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
   required string id = 1;
   required Primitive primitive = 2;
   optional uint32 lod = 3 [default = 0];
+  ///@check every vertexArray should have the same number of elements (size / step)
   repeated VertexArray vertexArrays = 4;
+  ///@check max value of every indexArray should be < number of elements of vertexArrays
   repeated IndexArray indexArrays = 5;
   /// display name
   optional string name = 6;
@@ -121,42 +124,33 @@ message UintBuffer {
 // }
 
 message Material {
-  /// identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
+  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
   required string id = 1;
-  repeated MaterialParam params = 2;
   optional string family = 3;
   /// display name
   optional string name = 4;
+  optional bool shadeless = 5 [default = true];
+  optional Color color = 10;
+  optional Texture color_map = 11;
+  ///@check range(0.0, 1.0)
+  optional float opacity = 12;
+  optional Texture opacity_map = 13;
+  optional Vec3 normal = 14;
+  optional Texture normal_map = 15;
+  ///@check range(0.0, 1.0)
+  optional float roughness = 16;
+  optional Texture roughness_map = 17;
+  ///@check range(0.0, 1.0)
+  optional float metalness = 18;
+  optional Texture metalness_map = 19;
+  optional Color specular = 20;
+  optional Texture specular_map = 21;
+  optional float specular_power = 22;
+  optional Texture specular_power_map = 23;
+  optional Color emission = 24;
+  optional Texture emission_map = 25;
 }
 
-message MaterialParam {
-  enum Attrib {
-    /// base color could be used for unshaded, or as base color in PBR, or as diffuse
-    color = 1;
-    roughness = 2;
-    metalness = 3;
-    specular = 4;
-    specular_power = 5;
-    emission = 6;
-    opacity = 7;
-    //transparency = 8;
-    normal = 9;
-  }
-  required Attrib attrib = 1;
-  oneof value {
-    Color vcolor = 2;
-    float vfloat = 3;
-    int32 vint = 4;
-    Vec2 vvec2 = 5;
-    Vec3 vvec3 = 6;
-    Vec4 vvec4 = 7;
-    Quaternion vquat = 8;
-    Mat4 vmat4 = 9;
-    string vstring = 10;
-    Texture vtexture = 11;
-    bool vbool = 12;
-  }
-}
 /// the direction of the light need by directional and spot is Z (forward like regular Node).
 /// To use an other direction add relation to a Node and change the rotation of the Node (idem for translation).
 message Light {
@@ -166,7 +160,7 @@ message Light {
     point = 3;
     spot = 4;
   }
-  /// identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
+  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
   required string id = 1;
   optional Kind kind = 2 [default = directional];
   optional Color color = 3;
@@ -214,10 +208,11 @@ message AttenuationInverseSquare {
 }
 
 message TObject {
-  /// identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
+  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
   required string id = 1;
   repeated Transform transforms = 2;
   /// id of the parent node. if undefined root of the scene is the parent
+  /// TODO use relation to store parent ?
   optional string parentId = 3;
   /// display name
   optional string name = 4;
@@ -263,11 +258,12 @@ message Color {
 
 
 message Texture {
-  optional string name = 1;
+  required string id = 1;
+  optional string name = 2;
   oneof data {
     /// path of the texture relative to asset root folder (use '/' as folder separator)
-    string rpath = 2;
-    Texture2DInline tex2d = 3;
+    string rpath = 3;
+    Texture2DInline tex2d = 4;
   }
 }
 
