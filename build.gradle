@@ -18,7 +18,7 @@ repositories {
   jcenter()
 }
 
-version = "0.2.0"
+version = "0.3.0"
 group = "net.alchim31.pgex"
 def description = "an experimental game exchange format for 3d data, based on protobuf"
 
