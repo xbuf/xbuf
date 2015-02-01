@@ -19,6 +19,7 @@ message Data {
 /// Define a Relation (edge, link) between two objects with an id
 /// rules:
 /// * typename of obj with id == ref1 < typename of obj with id == ref2
+/// * if typename of both obj is the same the relation if ref1 is the parent, ref2 is the child
 message Relation {
   /// reference the id of object 1
   ///@check ref1 != ref2
@@ -213,7 +214,7 @@ message TObject {
   repeated Transform transforms = 2;
   /// id of the parent node. if undefined root of the scene is the parent
   /// TODO use relation to store parent ?
-  optional string parentId = 3;
+  //optional string parentId = 3;
   /// display name
   optional string name = 4;
 }
