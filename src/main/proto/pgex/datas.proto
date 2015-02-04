@@ -9,6 +9,7 @@ message Data {
   repeated Geometry geometries = 4;
   repeated Material materials = 5;
   repeated Light lights = 6;
+  repeated Skeleton skeletons = 7;
 
   /// reserved for application specific data, no requirement to be managed by others application.
   /// eg: custom primitive properties, node material, particle, internal/private data to allow save/load
@@ -208,13 +209,32 @@ message AttenuationInverseSquare {
   optional float quadratic = 6 [default = 1.0];
 }
 
+message Skeleton {
+  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
+  required string id = 1;
+  /// display name
+  optional string name = 2;
+  repeated Bone bones = 3;
+  // the place to store relation between 2 bones (parent-child)
+  repeated Relation bones_graph = 4;
+}
+
+// Same Datatype as TObject, but to help typecheck, use an other message kind
+// Bone can't be share out of a skeleton, and relation between bones are scoped into a unique Skeleton.
+message Bone {
+  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
+  required string id = 1;
+  // the local transform (relative to its parent)
+  required Transform transform = 2;
+  /// display name
+  optional string name = 4;
+}
+
 message TObject {
   ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
   required string id = 1;
-  repeated Transform transforms = 2;
-  /// id of the parent node. if undefined root of the scene is the parent
-  /// TODO use relation to store parent ?
-  //optional string parentId = 3;
+  // the local transform (relative to its parent)
+  required Transform transform = 2;
   /// display name
   optional string name = 4;
 }
