@@ -4,11 +4,10 @@ option optimize_for = LITE_RUNTIME;
 import public "pgex/datas.proto";
 
 extend pgex.Data {
-  /// reserved for application specific data, no requirement to be managed by others application.
-  repeated CustomParams customParams = 500;
+  repeated CustomParamList custom_params = 500;
 }
 
-message CustomParams {
+message CustomParamList {
   required string id = 1;
   repeated CustomParam params = 2;
 }
