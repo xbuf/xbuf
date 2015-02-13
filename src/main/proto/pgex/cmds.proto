@@ -17,11 +17,16 @@ message Cmd {
 }
 
 message SetEye {
+  enum ProjMode {
+    perspective = 1;
+    orthographic = 2;
+  }
   required Vec3       location = 1;
   required Quaternion rotation = 2;
   optional Mat4       projection = 3;
   optional float      near = 5;
   optional float      far = 6;
+  optional ProjMode   projMode = 7 [default = perspective];
 }
 
 message ChangeAssetFolders {
