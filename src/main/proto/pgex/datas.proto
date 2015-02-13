@@ -238,7 +238,6 @@ message TObject {
   /// display name
   optional string name = 4;
 }
-
 message Transform {
   required Vec3 translation = 1;
   required Quaternion rotation = 2;
