@@ -1,8 +1,8 @@
-package pgex;
+package xbuf;
 option optimize_for = LITE_RUNTIME;
 
 message Data {
-  /// version of the protocol / data format. readonly !! (== the major of the pgex project version)
+  /// version of the protocol / data format. readonly !! (== the major of the xbuf project version)
   optional uint32 version = 1 [default = 0];
   repeated Relation relations = 2;
   repeated TObject tobjects = 3;

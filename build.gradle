@@ -19,7 +19,7 @@ repositories {
 }
 
 version = "0.4.0"
-group = "net.alchim31.pgex"
+group = "net.alchim31.xbuf"
 def description = "an experimental game exchange format for 3d data, based on protobuf"
 
 // Optional configuration:
