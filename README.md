@@ -7,7 +7,7 @@ xbuf is an exchange format usable to store scene, models, animations in file or 
 
 xbuf is a binary format using [Protocol Buffers (aka protobuf)](https://developers.google.com/protocol-buffers/) to generate source code for java, C++, python,... to read and write it. Then it's more developer friendly than json, oddl, xml, or any text based dialect, without loosing flexibility via extension.
 
-The project would like to be an **Community Format** shared by several engines, tools. It's **Open** to any controibutions (code, discussion, issues, tools, ...).
+The project would like to be an **Community Format** shared by several engines, tools. It's **Open** to any contributions (code, discussion, issues, tools, ...).
 
 License : [Public domain (CC0-1.0)](http://creativecommons.org/publicdomain/zero/1.0/)
 
