@@ -12,9 +12,15 @@ message AnimationKF {
   required string id = 1;
   /// display name
   optional string name = 2;
-  // duration of the animation in seconds.
-  optional float duration = 3;
+  // duration of the animation in ms
+  optional int32 duration = 3;
   repeated Clip clips = 4;
+
+  enum TargetKind {
+    tobject = 0;
+    skeleton = 1;
+  }
+  optional TargetKind targetKind = 5 [default = tobject];
 }
 
 message Clip {
@@ -27,6 +33,8 @@ message TransformKF {
   optional Vec3KF translation = 1;
   optional QuaternionKF rotation = 2;
   optional Vec3KF scale = 3;
+  /// used with skeleton
+  optional string boneName = 5;
 }
 
 message Vec3KF {
@@ -55,10 +63,11 @@ message KeyPoints {
     linear = 2;
     bezier = 3;
   }
-  repeated float duration_ratio =  1[packed=true];
+  /// timestamp of the keypoint in ms
+  repeated int32 at = 1 [packed=true];
   //@check length == length(duration_ratio)
-  repeated float value = 2[packed=true];
-  repeated InterpolationFct interpolation = 3[packed=true];
+  repeated float value = 2 [packed=true];
+  repeated InterpolationFct interpolation = 3 [packed=true];
   repeated BezierParams bezier_params= 4;
 }
 
