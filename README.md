@@ -11,6 +11,8 @@ The project would like to be an **Community Format** shared by several engines, 
 
 License : [Public domain (CC0-1.0)](http://creativecommons.org/publicdomain/zero/1.0/)
 
+[![Standards](http://imgs.xkcd.com/comics/standards.png)](http://xkcd.com/927/)
+
 # Use cases
 
 * create importer/exporter for modeler, game engine, tool (optimizer, asset pipes...)
