@@ -39,5 +39,6 @@ You can download files from [my repo](https://bintray.com/package/files/davidb/m
 
 * discussions about xbuf in communities:
   * jMonkeyEngine : [Xbuf format – A developper friendly game exchange format for 3d data](http://hub.jmonkeyengine.org/t/xbuf-format-a-developper-friendly-game-exchange-format-for-3d-data/31130/19)
+  * Ogre3D : [Ogre Forums • View topic - xbuf: call for help for an other 3D format](http://www.ogre3d.org/forums/viewtopic.php?f=1&t=82801&p=514877#p514877)
 * discussions about open format for 3D:
   * [Blender Artists: Alternative-to-FBX](http://blenderartists.org/forum/showthread.php?348506-Alternative-to-FBX/page3)
