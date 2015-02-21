@@ -20,64 +20,93 @@ message AnimationKF {
     tobject = 0;
     skeleton = 1;
   }
-  optional TargetKind targetKind = 5 [default = tobject];
+  optional TargetKind target_kind = 5 [default = tobject];
 }
 
 message Clip {
   oneof keyframes {
-    TransformKF transforms = 10;
-    ColorKF colors = 11;
+    SampledTransform sampled_transform = 1;
   }
 }
-message TransformKF {
-  optional Vec3KF translation = 1;
-  optional QuaternionKF rotation = 2;
-  optional Vec3KF scale = 3;
-  /// used with skeleton
-  optional string boneName = 5;
-}
-
-message Vec3KF {
-  optional KeyPoints x = 1;
-  optional KeyPoints y = 2;
-  optional KeyPoints z = 3;
-}
-
-message QuaternionKF {
-  optional KeyPoints x = 1;
-  optional KeyPoints y = 2;
-  optional KeyPoints z = 3;
-  optional KeyPoints w = 4;
-}
-
-message ColorKF {
-  optional KeyPoints r = 1;
-  optional KeyPoints g = 2;
-  optional KeyPoints b = 3;
-  optional KeyPoints a = 4;
-}
-
-message KeyPoints {
-  enum InterpolationFct {
-    constant = 1;
-    linear = 2;
-    bezier = 3;
-  }
+/// linear interpolation beetween eatch 'at'
+message SampledTransform {
   /// timestamp of the keypoint in ms
   repeated int32 at = 1 [packed=true];
-  //@check length == length(duration_ratio)
-  repeated float value = 2 [packed=true];
-  repeated InterpolationFct interpolation = 3 [packed=true];
-  repeated BezierParams bezier_params= 4;
+  //@check length == length(at) or 0
+  repeated float translation_x = 2 [packed=true];
+  //@check length == length(at) or 0
+  repeated float translation_y = 3 [packed=true];
+  //@check length == length(at) or 0
+  repeated float translation_z = 4 [packed=true];
+  //@check length == length(at) or 0
+  repeated float rotation_x = 5 [packed=true];
+  //@check length == length(at) or 0
+  repeated float rotation_y = 6 [packed=true];
+  //@check length == length(at) or 0
+  repeated float rotation_z = 7 [packed=true];
+  //@check length == length(at) or 0
+  repeated float rotation_w = 8 [packed=true];
+  //@check length == length(at) or 0
+  repeated float scale_x = 9 [packed=true];
+  //@check length == length(at) or 0
+  repeated float scale_y = 10 [packed=true];
+  //@check length == length(at) or 0
+  repeated float scale_z = 11 [packed=true];
+
+  /// used with skeleton
+  optional string bone_name = 20;
 }
 
-/// Bezier Params for a curve between P0(0, yp0)  and P1(1, yp1)
-/// y are in the same range that value of KeyPoints
-message BezierParams {
-  /// x of handle of P0 in range [0,1]
-  optional float h0_x = 1;
-  optional float h0_y = 2;
-  /// x of handle of P1 in range [0,1]
-  optional float h1_x = 3;
-  optional float h1_y = 4;
-}
+
+// message TransformKF {
+//   optional Vec3KF translation = 1;
+//   optional QuaternionKF rotation = 2;
+//   optional Vec3KF scale = 3;
+//   /// used with skeleton
+//   optional string bone_name = 5;
+// }
+//
+// message Vec3KF {
+//   optional KeyPoints x = 1;
+//   optional KeyPoints y = 2;
+//   optional KeyPoints z = 3;
+// }
+//
+// message QuaternionKF {
+//   optional KeyPoints x = 1;
+//   optional KeyPoints y = 2;
+//   optional KeyPoints z = 3;
+//   optional KeyPoints w = 4;
+// }
+//
+// message ColorKF {
+//   optional KeyPoints r = 1;
+//   optional KeyPoints g = 2;
+//   optional KeyPoints b = 3;
+//   optional KeyPoints a = 4;
+// }
+//
+// message KeyPoints {
+//   enum InterpolationFct {
+//     constant = 1;
+//     linear = 2;
+//     bezier = 3;
+//   }
+//   /// timestamp of the keypoint in ms
+//   repeated int32 at = 1 [packed=true];
+//   //@check length == length(duration_ratio)
+//   repeated float value = 2 [packed=true];
+//   repeated InterpolationFct interpolation = 3 [packed=true];
+//   repeated BezierParams bezier_params= 4;
+// }
+//
+// /// Bezier Params for a curve between P0(0, yp0)  and P1(1, yp1)
+// /// y are in the same range that value of KeyPoints
+// message BezierParams {
+//   /// x of handle of P0 in range [0,1]
+//   optional float h0_x = 1;
+//   optional float h0_y = 2;
+//   /// x of handle of P1 in range [0,1]
+//   optional float h1_x = 3;
+//   optional float h1_y = 4;
+// }
