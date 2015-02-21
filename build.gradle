@@ -18,9 +18,9 @@ repositories {
   jcenter()
 }
 
-version = "0.4.1"
+version = "0.5.0"
 group = "net.alchim31.xbuf"
-def description = "an experimental game exchange format for 3d data, based on protobuf"
+def description = "a game exchange format for 3d data, based on protobuf"
 
 // Optional configuration:
 protobuf {

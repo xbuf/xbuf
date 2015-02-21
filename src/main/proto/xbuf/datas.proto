@@ -67,7 +67,7 @@ message Mesh {
   repeated IndexArray indexArrays = 5;
   /// display name
   optional string name = 6;
-  // optional Skin skin = 6;
+  optional Skin skin = 7;
 }
 
 message VertexArray {
@@ -117,13 +117,23 @@ message UintBuffer {
   required uint32 step = 2 [default = 1];
 }
 
-// message Skin {
-//   optional Transform transform = 2;
-//   required Skeleton skeleton = 3;
-//   required BoneCountArray boneCountArray= 4;
-//   required BoneIndexArray boneIndexArray = 5;
-//   required BoneWeightArray boneWeightArray = 6;
-// }
+/// Create the link between a Skeleton and a Mesh
+/// boneCount[n] : number of bone that influence vertex[n]
+/// boneIndex[sum( 0 -> n-1, boneCount)] : index of the first bone that influence vertex[n]
+/// boneIndex[sum( 0 -> n-1, boneCount) + 1] : index of the second bone that influence vertex[n] if boneCount[n] > 1
+/// boneWeightPer100[sum( 0 -> n-1, boneCount)] : influence's weight (x 100) of the first bone that influence vertex[n]
+message Skin {
+  ///number of bone that influence the vertex
+  ///same vertices order than in the attached mesh
+  ///@check length == number of element (Mesh.vertexArrays)
+  repeated int32 boneCount = 2 [packed=true];
+  ///@check length == sum(boneCount)
+  ///index of the bone in the skeleton
+  repeated int32 boneIndex = 3 [packed=true];
+  ///@check length == length(boneIndex)
+  ///weight are defined percent [0, 100]
+  repeated int32 boneWeightPer100 = 4 [packed=true];
+}
 
 message Material {
   ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
