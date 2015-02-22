@@ -131,8 +131,8 @@ message Skin {
   ///index of the bone in the skeleton
   repeated int32 boneIndex = 3 [packed=true];
   ///@check length == length(boneIndex)
-  ///weight are defined percent [0, 100]
-  repeated int32 boneWeightPer100 = 4 [packed=true];
+  ///weight are defined in [0, 1] and sum should be ~ 1. It's highly suggested to normalized weight of importer side (eg: weight/ totalWeight)
+  repeated float boneWeight = 4 [packed=true];
 }
 
 message Material {
