@@ -11,8 +11,10 @@ message Cmd {
     Data setData = 3;
     /// use to delete data from a scene, model, animation, ...
     DeleteData deleteData = 4;
-    /// use to delete data from a scene, model, animation, ...
+    /// use to define the assets'folders (where is stored other files like textures)
     ChangeAssetFolders changeAssetFolders = 5;
+    /// use to request an animation to be played
+    PlayAnimation playAnimation = 6;
   }
 }
 
@@ -45,4 +47,11 @@ message DeleteData {
   repeated Relation relations = 2;
   /// set to true to remove all Data
   optional bool all = 3 [default = false];
+}
+
+message PlayAnimation {
+  // the ref of the tobject that should play the animation
+  required string ref = 1;
+  /// the sequence of animation to play
+  repeated string animationsNames = 2;
 }
