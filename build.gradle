@@ -19,7 +19,7 @@ repositories {
 }
 
 version = "0.5.1"
-group = "net.alchim31.xbuf"
+group = "org.xbuf"
 def description = "a game exchange format for 3d data, based on protobuf"
 
 // Optional configuration:
@@ -39,25 +39,25 @@ classes.dependsOn(compilePython)
 //   base.toURI().relativize( path.toURI() ).getPath()
 // }
 
-task apidoc {
-  println("generate apidoc with https://github.com/estan/protoc-gen-doc")
-  def cmd = ["protoc"]
-  // plugin options
-  def dest = project.file("build/doc")
-  dest.mkdirs()
-  cmd.addAll(["--doc_out=markdown,api.md:${relativePath(dest)}", "--plugin=protoc-gen-doc=tools/protoc-gen-doc"])
-  // source files
-  def src = project.file('src/main/proto')
-  def protos = fileTree(dir: src, include: '**/*.proto').collect { relativePath(it) }
-  cmd.addAll(["--proto_path=${relativePath(src)}"])
-  cmd.addAll(protos)
-  println(cmd)
-  // run
-  exec {
-    // protoc --doc_out=markdown,api.md:build/doc --plugin=protoc-gen-doc=tools/protoc-gen-doc --proto_path=src/main/proto src/main/proto/**/*.proto
-    commandLine cmd
-  }
-}
+//task apidoc() << {
+//  println("generate apidoc with https://github.com/estan/protoc-gen-doc")
+//  def cmd = ["protoc"]
+//  // plugin options
+//  def dest = project.file("build/doc")
+//  dest.mkdirs()
+//  cmd.addAll(["--doc_out=markdown,api.md:${relativePath(dest)}", "--plugin=protoc-gen-doc=tools/protoc-gen-doc"])
+//  // source files
+//  def src = project.file('src/main/proto')
+//  def protos = fileTree(dir: src, include: '**/*.proto').collect { relativePath(it) }
+//  cmd.addAll(["--proto_path=${relativePath(src)}"])
+//  cmd.addAll(protos)
+//  println(cmd)
+//  // run
+//  exec {
+//    // protoc --doc_out=markdown,api.md:build/doc --plugin=protoc-gen-doc=tools/protoc-gen-doc --proto_path=src/main/proto src/main/proto/**/*.proto
+//    commandLine cmd
+//  }
+//}
 
 task sourcesProto(type: Jar) {
   from 'src/main/proto'
