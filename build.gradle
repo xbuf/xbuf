@@ -101,7 +101,7 @@ publishing {
 		mavenStuff(MavenPublication) {
 			from components.java
       artifact sourcesProto
-			//artifact sourcesJava
+			artifact sourcesJava
       artifact sourcesCpp
       artifact sourcesPython
 			pom.withXml {
@@ -124,9 +124,9 @@ bintray {
 		repo = 'maven'
 		name = project.name
 		desc = description
-		websiteUrl = "https://github.com/davidB/${project.name}"
-		issueTrackerUrl = "https://github.com/davidB/${project.name}/issues"
-		vcsUrl = "https://github.com/davidB/${project.name}.git"
+		websiteUrl = "https://github.com/xbuf/${project.name}"
+		issueTrackerUrl = "https://github.com/xbuf/${project.name}/issues"
+		vcsUrl = "https://github.com/xbuf/${project.name}.git"
 		licenses = ['CC0-1.0']
 		//labels = ['']
 		publicDownloadNumbers = true
