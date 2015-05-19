@@ -44,3 +44,7 @@ You can download files from [my repo](https://bintray.com/package/files/davidb/m
   * Ogre3D : [Ogre Forums • View topic - xbuf: call for help for an other 3D format](http://www.ogre3d.org/forums/viewtopic.php?f=1&t=82801&p=514877#p514877)
 * discussions about open format for 3D:
   * [Blender Artists: Alternative-to-FBX](http://blenderartists.org/forum/showthread.php?348506-Alternative-to-FBX/page3)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/xbuf/xbuf/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
