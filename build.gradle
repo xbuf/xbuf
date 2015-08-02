@@ -18,7 +18,7 @@ repositories {
   jcenter()
 }
 
-version = "0.5.1"
+version = "0.6.0"
 group = "org.xbuf"
 def description = "a game exchange format for 3d data, based on protobuf"
 
