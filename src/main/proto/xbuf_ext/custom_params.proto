@@ -1,5 +1,5 @@
 package xbuf_ext;
-option optimize_for = LITE_RUNTIME;
+//option optimize_for = LITE_RUNTIME;
 
 import public "xbuf/datas.proto";
 

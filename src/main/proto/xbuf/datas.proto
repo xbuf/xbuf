@@ -1,15 +1,17 @@
 package xbuf;
-option optimize_for = LITE_RUNTIME;
+//option optimize_for = LITE_RUNTIME;
 
 message Data {
   /// version of the protocol / data format. readonly !! (== the major of the xbuf project version)
   optional uint32 version = 1 [default = 0];
   repeated Relation relations = 2;
   repeated TObject tobjects = 3;
-  repeated Geometry geometries = 4;
+  ///@deprecated use meshes directly
+  //repeated Geometry geometries = 4;
   repeated Material materials = 5;
   repeated Light lights = 6;
   repeated Skeleton skeletons = 7;
+  repeated Mesh meshes = 8;
 
   /// reserved for application specific data, no requirement to be managed by others application.
   /// eg: custom primitive properties, node material, particle, internal/private data to allow save/load
@@ -31,18 +33,19 @@ message Relation {
   optional string label = 3;
 }
 
-message Geometry {
-  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-  required string id = 1;
-  repeated Mesh meshes = 2;
-  /// display name
-  optional string name = 3;
-  //repeated Morph morphs = 3 [packed=true];
-  //visible bool true Whether the geometry is visible.
-  //If the visible property is false, then the geometry should not be rendered but should still
-  //shadow bool true Whether the geometry casts shadows.
-  //motion_blur bool true Whether the geometry is rendered with motion blur.
-}
+// deprecated
+// message Geometry {
+//   ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
+//   required string id = 1;
+//   repeated Mesh meshes = 2;
+//   /// display name
+//   optional string name = 3;
+//   //repeated Morph morphs = 3 [packed=true];
+//   //visible bool true Whether the geometry is visible.
+//   //If the visible property is false, then the geometry should not be rendered but should still
+//   //shadow bool true Whether the geometry casts shadows.
+//   //motion_blur bool true Whether the geometry is rendered with motion blur.
+// }
 
 message Mesh {
   enum Primitive {
