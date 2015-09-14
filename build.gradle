@@ -18,7 +18,7 @@ repositories {
   jcenter()
 }
 
-version = "0.6.0"
+version = "0.7.0"
 group = "org.xbuf"
 def description = "a game exchange format for 3d data, based on protobuf"
 
@@ -35,29 +35,49 @@ task compilePython(type: Copy) {
 }
 classes.dependsOn(compilePython)
 
-// def relativize(base, path) {
-//   base.toURI().relativize( path.toURI() ).getPath()
-// }
+def relativize(base, path) {
+  base.toURI().relativize( path.toURI() ).getPath()
+}
 
-//task apidoc() << {
-//  println("generate apidoc with https://github.com/estan/protoc-gen-doc")
-//  def cmd = ["protoc"]
-//  // plugin options
-//  def dest = project.file("build/doc")
-//  dest.mkdirs()
-//  cmd.addAll(["--doc_out=markdown,api.md:${relativePath(dest)}", "--plugin=protoc-gen-doc=tools/protoc-gen-doc"])
-//  // source files
-//  def src = project.file('src/main/proto')
-//  def protos = fileTree(dir: src, include: '**/*.proto').collect { relativePath(it) }
-//  cmd.addAll(["--proto_path=${relativePath(src)}"])
-//  cmd.addAll(protos)
-//  println(cmd)
-//  // run
-//  exec {
-//    // protoc --doc_out=markdown,api.md:build/doc --plugin=protoc-gen-doc=tools/protoc-gen-doc --proto_path=src/main/proto src/main/proto/**/*.proto
-//    commandLine cmd
-//  }
-//}
+task apidoc() << {
+  println("generate apidoc with https://github.com/estan/protoc-gen-doc")
+  def cmd = ["protoc"]
+  // plugin options
+  def dest = project.file("build/doc")
+  dest.mkdirs()
+  cmd.addAll(["--doc_out=markdown,api.md:${relativePath(dest)}", "--plugin=protoc-gen-doc=tools/linux_x64/protoc-gen-doc"])
+  // source files
+  def src = project.file('src/main/proto')
+  def protos = fileTree(dir: src, include: '**/*.proto').collect { relativePath(it) }
+  cmd.addAll(["--proto_path=${relativePath(src)}"])
+  cmd.addAll(protos)
+  println(cmd)
+  // run
+  exec {
+   // protoc --doc_out=markdown,api.md:build/doc --plugin=protoc-gen-doc=tools/protoc-gen-doc --proto_path=src/main/proto src/main/proto/**/*.proto
+   commandLine cmd
+  }
+}
+
+task genRust() << {
+  println("generate rust with https://github.com/stepancheg/rust-protobuf")
+  def cmd = ["protoc"]
+  // plugin options
+  def dest = project.file("build/generated/rust")
+  dest.mkdirs()
+  cmd.addAll(["--rust_out=${relativePath(dest)}", "--plugin=protoc-gen-rust=tools/linux_x64/protoc-gen-rust"])
+  // source files
+  def src = project.file('src/main/proto')
+  def protos = fileTree(dir: src, include: '**/*.proto').collect { relativePath(it) }
+  cmd.addAll(["--proto_path=${relativePath(src)}"])
+  cmd.addAll(protos)
+  println(cmd)
+  // run
+  exec {
+   commandLine cmd
+  }
+}
+//classes.dependsOn(genRust)
 
 task sourcesProto(type: Jar) {
   from 'src/main/proto'
