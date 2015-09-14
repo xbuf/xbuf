@@ -1,11 +1,11 @@
 package xbuf_ext;
 //option optimize_for = LITE_RUNTIME;
 
-import public "xbuf/datas.proto";
+import public "xbuf/primitives.proto";
 
-extend xbuf.Data {
-  repeated CustomParamList custom_params = 500;
-}
+// extend xbuf.Data {
+//   repeated CustomParamList custom_params = 500;
+// }
 
 message CustomParamList {
   required string id = 1;

@@ -1,9 +1,20 @@
 package xbuf;
 //option optimize_for = LITE_RUNTIME;
 
+import public "xbuf/lights.proto";
+import public "xbuf/materials.proto";
+import public "xbuf/meshes.proto";
+import public "xbuf/primitives.proto";
+import public "xbuf/relations.proto";
+import public "xbuf/skeletons.proto";
+import public "xbuf/tobjects.proto";
+
+import public "xbuf_ext/animations_kf.proto";
+import public "xbuf_ext/custom_params.proto";
+
 message Data {
   /// version of the protocol / data format. readonly !! (== the major of the xbuf project version)
-  optional uint32 version = 1 [default = 0];
+  optional uint32 version = 1 [default = 20150914];
   repeated Relation relations = 2;
   repeated TObject tobjects = 3;
   ///@deprecated use meshes directly
@@ -13,248 +24,14 @@ message Data {
   repeated Skeleton skeletons = 7;
   repeated Mesh meshes = 8;
 
+  /// extensions
+  repeated xbuf_ext.CustomParamList custom_params = 500;
+  repeated xbuf_ext.AnimationKF animations_kf = 501;
+
   /// reserved for application specific data, no requirement to be managed by others application.
   /// eg: custom primitive properties, node material, particle, internal/private data to allow save/load
   /// Only require to avoid collision in index.
-  extensions 500 to 2000;
-}
-
-/// Define a Relation (edge, link) between two objects with an id
-/// rules:
-/// * typename of obj with id == ref1 < typename of obj with id == ref2
-/// * if typename of both obj is the same the relation if ref1 is the parent, ref2 is the child
-message Relation {
-  /// reference the id of object 1
-  ///@check ref1 != ref2
-  required string ref1 = 1;
-  /// reference the id of object 1
-  required string ref2 = 2;
-  /// mainly for description but often useless
-  optional string label = 3;
-}
-
-// deprecated
-// message Geometry {
-//   ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-//   required string id = 1;
-//   repeated Mesh meshes = 2;
-//   /// display name
-//   optional string name = 3;
-//   //repeated Morph morphs = 3 [packed=true];
-//   //visible bool true Whether the geometry is visible.
-//   //If the visible property is false, then the geometry should not be rendered but should still
-//   //shadow bool true Whether the geometry casts shadows.
-//   //motion_blur bool true Whether the geometry is rendered with motion blur.
-// }
-
-message Mesh {
-  enum Primitive {
-    /// "points" The mesh is composed of a set of independent points. The number of points is n, and point i is given by vertex i.
-    points = 1;
-    /// "lines" The mesh is composed of a set of independent lines. The number of lines is n / 2 , and line i is composed of vertices 2i and 2i+1 .
-    lines = 2;
-    /// "line_strip" The mesh is composed of one or more line strips. The number of lines is  n - 1 , and line i is composed of vertices i and i + 1 .
-    line_strip = 3;
-    /// "triangles" The mesh is composed of a set of independent triangles. The number of triangles is n/3 , and triangle i is composed of vertices 3i , 3i + 1 , and 3i + 2.
-    triangles = 4;
-    /// "triangle_strip" The mesh is composed of one or more triangle strips. The number of triangles is n - 2 , and triangle i is composed of vertices i, i + 1 , and i + 2 when i is even or vertices i, i + 2 , and i + 1 when i is odd, in the orders listed.
-    triangle_strip = 5;
-  }
-  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-  required string id = 1;
-  required Primitive primitive = 2;
-  optional uint32 lod = 3 [default = 0];
-  ///@check every vertexArray should have the same number of elements (size / step)
-  repeated VertexArray vertexArrays = 4;
-  ///@check max value of every indexArray should be < number of elements of vertexArrays
-  repeated IndexArray indexArrays = 5;
-  /// display name
-  optional string name = 6;
-  optional Skin skin = 7;
-}
-
-message VertexArray {
-  enum Attrib {
-    position = 1;
-    normal = 2;
-    tangent = 3;
-    bitangent = 4;
-    color = 5;
-    texcoord = 6;
-    texcoord2 = 7;
-    texcoord3 = 8;
-    texcoord4 = 9;
-    texcoord5 = 10;
-    texcoord6 = 11;
-    texcoord7 = 12;
-    texcoord8 = 13;
-    texcoord9 = 14;
-  }
-  required Attrib attrib = 1;
-  optional uint32 morph = 2 [default = 0];
-  oneof buffer {
-    FloatBuffer floats = 3;
-    //DoubleBuffer doubles = 4;
-  }
-}
-
-message IndexArray {
-  oneof buffer {
-    UintBuffer ints = 1;
-  }
-}
-
-message FloatBuffer {
-  repeated float values = 1 [packed = true];
-  /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
-  required uint32 step = 2 [default = 1];
-}
-// message DoubleBuffer {
-//   repeated double values = 1 [packed = true];
-//   /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
-//   required uint32 step = 2 [default = 1];
-// }
-message UintBuffer {
-  repeated uint32 values = 1 [packed = true];
-  /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
-  required uint32 step = 2 [default = 1];
-}
-
-/// Create the link between a Skeleton and a Mesh
-/// boneCount[n] : number of bone that influence vertex[n]
-/// boneIndex[sum( 0 -> n-1, boneCount)] : index of the first bone that influence vertex[n]
-/// boneIndex[sum( 0 -> n-1, boneCount) + 1] : index of the second bone that influence vertex[n] if boneCount[n] > 1
-/// boneWeightPer100[sum( 0 -> n-1, boneCount)] : influence's weight (x 100) of the first bone that influence vertex[n]
-message Skin {
-  ///number of bone that influence the vertex
-  ///same vertices order than in the attached mesh
-  ///@check length == number of element (Mesh.vertexArrays)
-  repeated int32 boneCount = 2 [packed=true];
-  ///@check length == sum(boneCount)
-  ///index of the bone in the skeleton
-  repeated int32 boneIndex = 3 [packed=true];
-  ///@check length == length(boneIndex)
-  ///weight are defined in [0, 1] and sum should be ~ 1. It's highly suggested to normalized weight of importer side (eg: weight/ totalWeight)
-  repeated float boneWeight = 4 [packed=true];
-}
-
-message Material {
-  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-  required string id = 1;
-  optional string family = 3;
-  /// display name
-  optional string name = 4;
-  optional bool shadeless = 5 [default = true];
-  optional Color color = 10;
-  optional Texture color_map = 11;
-  ///@check range(0.0, 1.0)
-  optional float opacity = 12;
-  optional Texture opacity_map = 13;
-  optional Vec3 normal = 14;
-  optional Texture normal_map = 15;
-  ///@check range(0.0, 1.0)
-  optional float roughness = 16;
-  optional Texture roughness_map = 17;
-  ///@check range(0.0, 1.0)
-  optional float metalness = 18;
-  optional Texture metalness_map = 19;
-  optional Color specular = 20;
-  optional Texture specular_map = 21;
-  optional float specular_power = 22;
-  optional Texture specular_power_map = 23;
-  optional Color emission = 24;
-  optional Texture emission_map = 25;
-}
-
-/// the direction of the light need by directional and spot is Z (forward like regular Node).
-/// To use an other direction add relation to a Node and change the rotation of the Node (idem for translation).
-message Light {
-  enum Kind {
-    ambient = 1;
-    directional = 2;
-    point = 3;
-    spot = 4;
-  }
-  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-  required string id = 1;
-  optional Kind kind = 2 [default = directional];
-  optional Color color = 3;
-  optional float intensity = 4 [default = 1.0];
-  optional bool cast_shadow = 5 [default = false];
-  /// attenuation from the radial distance of light source (for spot and point)
-  optional Attenuation radial_distance = 6;
-  /// attenuation of the angle forme between the forward axis (z) and the direction of the point.
-  /// eg: for a linear attenuation linear.begin is the end of inner cone, linear.end is the end of outer cone : linear define the penumbra
-  optional Attenuation spot_angle = 7;
-  /// display name
-  optional string name = 8;
-}
-
-message Attenuation {
-  ///  for a distance max is in meter, for an angle attenuation max is in radian.
-  required float max = 1;
-  oneof curve {
-    AttenuationLinear linear = 4;
-    AttenuationSmooth smooth = 5;
-    AttenuationInverse inverse = 6;
-    AttenuationInverseSquare inverse_square = 7;
-  }
-}
-message AttenuationLinear {
-  optional float begin = 4 [default = 0.0];
-  optional float end = 5 [default = 1.0];
-}
-message AttenuationSmooth {
-  optional float begin = 4 [default = 0.0];
-  optional float end = 5 [default = 1.0];
-}
-message AttenuationInverse {
-  optional float scale = 2 [default = 1.0];
-  optional float offset = 3 [default = 0.0];
-  optional float constant = 4 [default = 0.0];
-  optional float linear = 5 [default = 1.0];
-}
-message AttenuationInverseSquare {
-  optional float scale = 2 [default = 1.0];
-  optional float offset = 3 [default = 0.0];
-  optional float constant = 4 [default = 0.0];
-  optional float linear = 5 [default = 0.0];
-  optional float quadratic = 6 [default = 1.0];
-}
-
-message Skeleton {
-  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-  required string id = 1;
-  /// display name
-  optional string name = 2;
-  repeated Bone bones = 3;
-  // the place to store relation between 2 bones (parent-child)
-  repeated Relation bones_graph = 4;
-}
-
-// Same Datatype as TObject, but to help typecheck, use an other message kind
-// Bone can't be share out of a skeleton, and relation between bones are scoped into a unique Skeleton.
-message Bone {
-  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-  required string id = 1;
-  // the local transform (relative to its parent)
-  required Transform transform = 2;
-  /// display name
-  optional string name = 4;
-}
-
-message TObject {
-  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-  required string id = 1;
-  // the local transform (relative to its parent)
-  required Transform transform = 2;
-  /// display name
-  optional string name = 4;
-}
-message Transform {
-  required Vec3 translation = 1;
-  required Quaternion rotation = 2;
-  required Vec3 scale = 3;
+  extensions 550 to 2000;
 }
 
 // message Morph {
@@ -264,77 +41,3 @@ message Transform {
 //   /// the base morph target index for relative morph target.
 //   optional uint32 base = 3;
 // }
-message Vec2 {
-  required float x = 1;
-  required float y = 2;
-}
-
-message Vec3 {
-  required float x = 1;
-  required float y = 2;
-  required float z = 3;
-}
-
-message Vec4 {
-  required float x = 1;
-  required float y = 2;
-  required float z = 3;
-  required float w = 4;
-}
-
-message Color {
-  required float r = 1;
-  required float g = 2;
-  required float b = 3;
-  required float a = 4;
-}
-
-
-message Texture {
-  required string id = 1;
-  optional string name = 2;
-  oneof data {
-    /// path of the texture relative to asset root folder (use '/' as folder separator)
-    string rpath = 3;
-    Texture2DInline tex2d = 4;
-  }
-}
-
-message Texture2DInline {
-  enum Format {
-    rgb8 = 1;
-    rgba8 = 2;
-    bgra8 = 3;
-  }
-  required Format format = 1;
-  required uint32 width = 2;
-  required uint32 height = 3;
-  required bytes data = 4;
-}
-
-/// Quaternion should be normalized
-message Quaternion {
-  required float x = 1;
-  required float y = 2;
-  required float z = 3;
-  required float w = 4;
-}
-
-message Mat4 {
-  required float c00 = 1;
-  required float c10 = 2;
-  required float c20 = 3;
-  required float c30 = 4;
-  required float c01 = 5;
-  required float c11 = 6;
-  required float c21 = 7;
-  required float c31 = 8;
-  required float c02 = 9;
-  required float c12 = 10;
-  required float c22 = 11;
-  required float c32 = 12;
-  required float c03 = 13;
-  required float c13 = 14;
-  required float c23 = 15;
-  required float c33 = 16;
-}

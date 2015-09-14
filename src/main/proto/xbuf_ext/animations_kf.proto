@@ -1,11 +1,11 @@
 package xbuf_ext;
 //option optimize_for = LITE_RUNTIME;
 
-import public "xbuf/datas.proto";
+// import public "xbuf/datas.proto";
 
-extend xbuf.Data {
-  repeated AnimationKF animations_kf = 501;
-}
+// extend xbuf.Data {
+//   repeated AnimationKF animations_kf = 501;
+// }
 
 message AnimationKF {
   ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.

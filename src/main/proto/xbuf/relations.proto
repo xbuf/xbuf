@@ -1,0 +1,15 @@
+package xbuf;
+
+/// Define a Relation (edge, link) between two objects with an id
+/// rules:
+/// * typename of obj with id == ref1 < typename of obj with id == ref2
+/// * if typename of both obj is the same the relation if ref1 is the parent, ref2 is the child
+message Relation {
+  /// reference the id of object 1
+  ///@check ref1 != ref2
+  required string ref1 = 1;
+  /// reference the id of object 1
+  required string ref2 = 2;
+  /// mainly for description but often useless
+  optional string label = 3;
+}

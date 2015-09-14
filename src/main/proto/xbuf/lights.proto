@@ -1,0 +1,59 @@
+package xbuf;
+
+import public "xbuf/primitives.proto";
+
+/// the direction of the light need by directional and spot is Z (forward like regular Node).
+/// To use an other direction add relation to a Node and change the rotation of the Node (idem for translation).
+message Light {
+  enum Kind {
+    ambient = 1;
+    directional = 2;
+    point = 3;
+    spot = 4;
+  }
+  ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
+  required string id = 1;
+  optional Kind kind = 2 [default = directional];
+  optional Color color = 3;
+  optional float intensity = 4 [default = 1.0];
+  optional bool cast_shadow = 5 [default = false];
+  /// attenuation from the radial distance of light source (for spot and point)
+  optional Attenuation radial_distance = 6;
+  /// attenuation of the angle forme between the forward axis (z) and the direction of the point.
+  /// eg: for a linear attenuation linear.begin is the end of inner cone, linear.end is the end of outer cone : linear define the penumbra
+  optional Attenuation spot_angle = 7;
+  /// display name
+  optional string name = 8;
+}
+
+message Attenuation {
+  ///  for a distance max is in meter, for an angle attenuation max is in radian.
+  required float max = 1;
+  oneof curve {
+    AttenuationLinear linear = 4;
+    AttenuationSmooth smooth = 5;
+    AttenuationInverse inverse = 6;
+    AttenuationInverseSquare inverse_square = 7;
+  }
+}
+message AttenuationLinear {
+  optional float begin = 4 [default = 0.0];
+  optional float end = 5 [default = 1.0];
+}
+message AttenuationSmooth {
+  optional float begin = 4 [default = 0.0];
+  optional float end = 5 [default = 1.0];
+}
+message AttenuationInverse {
+  optional float scale = 2 [default = 1.0];
+  optional float offset = 3 [default = 0.0];
+  optional float constant = 4 [default = 0.0];
+  optional float linear = 5 [default = 1.0];
+}
+message AttenuationInverseSquare {
+  optional float scale = 2 [default = 1.0];
+  optional float offset = 3 [default = 0.0];
+  optional float constant = 4 [default = 0.0];
+  optional float linear = 5 [default = 0.0];
+  optional float quadratic = 6 [default = 1.0];
+}
