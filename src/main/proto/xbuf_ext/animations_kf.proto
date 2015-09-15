@@ -1,11 +1,4 @@
 package xbuf_ext;
-//option optimize_for = LITE_RUNTIME;
-
-// import public "xbuf/datas.proto";
-
-// extend xbuf.Data {
-//   repeated AnimationKF animations_kf = 501;
-// }
 
 message AnimationKF {
   ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
@@ -28,7 +21,9 @@ message Clip {
     SampledTransform sampled_transform = 1;
   }
 }
-/// linear interpolation beetween eatch 'at'
+
+/// Transformations in the parent space (parent of the tobject or parent of the bone)
+/// beetween eatch 'at', use linear interpolation (lerp) for translation, scale and slerp for rotation
 message SampledTransform {
   /// timestamp of the keypoint in ms
   repeated int32 at = 1 [packed=true];
