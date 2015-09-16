@@ -6,6 +6,7 @@ buildscript {
     // https://github.com/andrewkroh/gradle-protobuf-plugin
     classpath 'com.andrewkroh.gradle:gradle-protobuf-plugin:0.4.0'
     classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
+    classpath "com.dmdirc:git-version:1.0"
   }
 }
 
@@ -13,14 +14,20 @@ apply plugin: 'protobuf'
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.dmdirc.git-version'
 
 repositories {
   jcenter()
 }
 
-version = "0.7.0"
+
+//version = "0.7.0"
 group = "org.xbuf"
-def description = "a game exchange format for 3d data, based on protobuf"
+def description = "a game exchange format for 3d data"
+
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 // Optional configuration:
 protobuf {
