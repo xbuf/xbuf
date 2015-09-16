@@ -6,7 +6,7 @@ buildscript {
     // https://github.com/andrewkroh/gradle-protobuf-plugin
     classpath 'com.andrewkroh.gradle:gradle-protobuf-plugin:0.4.0'
     classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
-    classpath "com.dmdirc:git-version:1.0"
+    classpath group: 'com.cinnober.gradle', name: 'semver-git', version: '2.2.0'
   }
 }
 
@@ -14,14 +14,16 @@ apply plugin: 'protobuf'
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.dmdirc.git-version'
+
+ext.nextVersion = "patch"
+ext.snapshotSuffix = "<count>.g<sha>"
+apply plugin: 'com.cinnober.gradle.semver-git'
 
 repositories {
   jcenter()
 }
 
-
-//version = "0.7.0"
+//version = "0.7.2"
 group = "org.xbuf"
 def description = "a game exchange format for 3d data"
 
