@@ -91,7 +91,7 @@ message UintBuffer {
 /// boneCount[n] : number of bone that influence vertex[n]
 /// boneIndex[sum( 0 -> n-1, boneCount)] : index of the first bone that influence vertex[n]
 /// boneIndex[sum( 0 -> n-1, boneCount) + 1] : index of the second bone that influence vertex[n] if boneCount[n] > 1
-/// boneWeightPer100[sum( 0 -> n-1, boneCount)] : influence's weight (x 100) of the first bone that influence vertex[n]
+/// boneWeight[sum( 0 -> n-1, boneCount)] : influence's weight of the first bone that influence vertex[n]
 message Skin {
   ///number of bone that influence the vertex
   ///same vertices order than in the attached mesh
@@ -103,4 +103,5 @@ message Skin {
   ///@check length == length(boneIndex)
   ///weight are defined in [0, 1] and sum should be ~ 1. It's highly suggested to normalized weight of importer side (eg: weight/ totalWeight)
   repeated float boneWeight = 4 [packed=true];
+  repeated string boneNames = 5;
 }
