@@ -20,7 +20,7 @@ __pycache__
 .settings
 .apt_generated
 .factorypath
-
+.vscode
 # crash
 hs_err_pid*.log
 /protostuff.properties.off
