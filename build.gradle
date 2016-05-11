@@ -5,7 +5,7 @@ buildscript {
   dependencies {
     // https://github.com/andrewkroh/gradle-protobuf-plugin
     classpath 'com.andrewkroh.gradle:gradle-protobuf-plugin:0.4.0'
-    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
+    //classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
     classpath group: 'com.cinnober.gradle', name: 'semver-git', version: '2.2.0'
   }
 }
@@ -13,7 +13,7 @@ buildscript {
 apply plugin: 'protobuf'
 apply plugin: 'java'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'com.jfrog.bintray'
 
 ext.nextVersion = "patch"
 ext.snapshotSuffix = "<count>.g<sha>"
@@ -141,7 +141,7 @@ publishing {
 		}
 	}
 }
-
+/*
 bintray {
 	user = bintray_user
 	key = bintray_api_key
@@ -170,3 +170,4 @@ bintray {
 		}
 	}
 }
+*/
