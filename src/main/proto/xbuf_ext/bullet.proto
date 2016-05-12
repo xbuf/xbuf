@@ -30,7 +30,7 @@ message BulletPhysics {
     optional float restitution = 9 [ default = 0 ];
     optional xbuf.Vec3 angularFactor = 10; // default?
     optional xbuf.Vec3 linearFactor = 11; //?
-    optional bool is_ghost = 12 [ default = false ];
+    optional bool isGhost = 12 [ default = false ];
     optional bool isKinematic = 13 [ default=false ];
     optional int32 collisionGroup = 14 [ default = 1 ];
     optional int32 collisionMask = 15 [ default = 1 ];
