@@ -11,6 +11,7 @@ import public "xbuf/tobjects.proto";
 
 import public "xbuf_ext/animations_kf.proto";
 import public "xbuf_ext/custom_params.proto";
+import public "xbuf_ext/bullet.proto";
 
 message Data {
   /// version of the protocol / data format. readonly !! (== the major of the xbuf project version)
@@ -27,7 +28,8 @@ message Data {
   /// extensions
   repeated xbuf_ext.CustomParamList custom_params = 500;
   repeated xbuf_ext.AnimationKF animations_kf = 501;
-
+  repeated xbuf_ext.BulletPhysics bullet_physics = 502;
+  
   /// reserved for application specific data, no requirement to be managed by others application.
   /// eg: custom primitive properties, node material, particle, internal/private data to allow save/load
   /// Only require to avoid collision in index.
