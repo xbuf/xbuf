@@ -1,0 +1,12 @@
+sudo: true
+language: java
+env:
+ - GRADLE_USER_HOME=gradle-cache
+cache:
+  directories:
+   - gradle-cache
+jdk:
+  - oraclejdk8
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y protobuf-compiler libprotobuf-dev libprotoc-dev
