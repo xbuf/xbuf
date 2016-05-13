@@ -1,0 +1,43 @@
+package xbuf_ext;
+import public "xbuf/primitives.proto";
+
+message PhysicsData {
+
+    enum PhysicsShape {
+        smesh = 1;
+        ssphere = 2;
+        shull = 3;
+        sbox = 4;
+        scapsule = 5;
+        scylinder = 6;
+        scone = 7;
+    }
+   
+    optional RigidBody rigidbody = 1;
+}   
+   
+message RigidBody {
+    required string id = 1;
+
+    enum RigidBodyType {
+        tnone = 1;
+        tstatic = 2;
+        tdynamic = 3;
+        tghost = 4;
+    }
+    
+    optional RigidBodyType type = 2 [ default = tnone ];
+    optional PhysicsData.PhysicsShape shape = 3 [ default = smesh ];
+    optional float mass = 4 [ default = 1.0 ];
+    optional float friction = 5 [ default = 1.0 ];
+    optional float angularDamping = 6 [ default = 0 ];
+    optional float linearDamping = 7 [ default = 0 ];
+    optional float margin = 8 [ default = 0 ];
+    optional float restitution = 9 [ default = 0 ];
+    optional xbuf.Vec3 angularFactor = 10;
+    optional xbuf.Vec3 linearFactor = 11; 
+    optional bool isKinematic = 12 [ default=false ];
+    optional int32 collisionGroup = 13 [ default = 1 ];
+    optional int32 collisionMask = 14 [ default = 1 ];
+    
+}
