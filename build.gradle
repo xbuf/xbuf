@@ -2,10 +2,6 @@ buildscript {
 	repositories {
 		jcenter()
 	}
-	dependencies {
-		//classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
-		classpath group: 'com.cinnober.gradle', name: 'semver-git', version: '2.2.0'
-	}
 }
 plugins {
 	id "com.google.protobuf" version "0.7.7"
@@ -15,9 +11,8 @@ plugins {
 
 //apply plugin: 'com.jfrog.bintray'
 
-ext.nextVersion = "patch"
-ext.snapshotSuffix = "<count>.g<sha>"
-apply plugin: 'com.cinnober.gradle.semver-git'
+project.version = "git describe --always --dirty".execute().text.trim()
+println("version : '${project.version}'")
 
 repositories {
 	jcenter()
