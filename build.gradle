@@ -108,7 +108,11 @@ def pomConfig = {
 			id "davidB"
 			name "David Bernard"
 		}
-	}
+		developer {
+			id "riccardobl"
+			name "Riccardo Balbo"
+		}
+	}	
 }
 
 publishing {
