@@ -14,7 +14,7 @@ message PhysicsData {
     }
    
     optional RigidBody rigidbody = 1;
-    optional Constrint constraint = 2;
+    optional Constraint constraint = 2;
 }   
 
 message Constraint {
