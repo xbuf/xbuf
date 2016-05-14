@@ -1,16 +1,12 @@
-buildscript {
-	repositories {
-		jcenter()
-	}
-}
 plugins {
 	id "com.google.protobuf" version "0.7.7"
 	id "java"
 	id "maven-publish"
+	id "com.jfrog.bintray" version "1.6"
 }
 
-//apply plugin: 'com.jfrog.bintray'
-
+group = "org.xbuf"
+def description = "a game exchange format for 3d data"
 project.version = "git describe --always --dirty".execute().text.trim()
 println("version : '${project.version}'")
 
@@ -21,9 +17,6 @@ repositories {
 dependencies {
 	compile 'com.google.protobuf:protobuf-java:2.6.1'
 }
-//version = "0.7.2"
-group = "org.xbuf"
-def description = "a game exchange format for 3d data"
 
 sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
@@ -131,7 +124,7 @@ publishing {
 		}
 	}
 }
-/*
+
 bintray {
 	user = bintray_user
 	key = bintray_api_key
@@ -160,4 +153,8 @@ bintray {
 		}
 	}
 }
-*/
+
+bintrayUpload.onlyIf {
+		(bintray_api_key.length() > 0) &&
+		(version ==~ /(d+)\.(d+)\.(d+)/)
+}
