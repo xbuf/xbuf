@@ -14,7 +14,22 @@ message PhysicsData {
     }
    
     optional RigidBody rigidbody = 1;
+    optional Constrint constraint = 2;
 }   
+
+message Constraint {
+    required string id = 1;
+    optional ConstraintGeneric generic = 2;   
+}
+
+message ConstraintGeneric {
+    required xbuf.Vec3 pivotA = 1;
+    required xbuf.Vec3 pivotB = 2;
+    required xbuf.Vec3 upperLinearLimit = 3;
+    required xbuf.Vec3 lowerLinearLimit = 4;
+    required xbuf.Vec3 upperAngularLimit = 5;
+    required xbuf.Vec3 lowerAngularLimit = 6;
+}
    
 message RigidBody {
     required string id = 1;
