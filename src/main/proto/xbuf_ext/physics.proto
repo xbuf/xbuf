@@ -19,7 +19,10 @@ message PhysicsData {
 
 message Constraint {
     required string id = 1;
-    optional ConstraintGeneric generic = 2;   
+    required string a_ref = 2;
+    required string b_ref = 3;
+    optional ConstraintGeneric generic = 4;   
+
 }
 
 message ConstraintGeneric {
@@ -29,6 +32,7 @@ message ConstraintGeneric {
     required xbuf.Vec3 lowerLinearLimit = 4;
     required xbuf.Vec3 upperAngularLimit = 5;
     required xbuf.Vec3 lowerAngularLimit = 6;
+
 }
    
 message RigidBody {
