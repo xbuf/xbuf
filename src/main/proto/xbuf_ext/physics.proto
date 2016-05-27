@@ -32,6 +32,7 @@ message ConstraintGeneric {
     required xbuf.Vec3 lowerLinearLimit = 4;
     required xbuf.Vec3 upperAngularLimit = 5;
     required xbuf.Vec3 lowerAngularLimit = 6;
+    required bool disable_collisions = 7;
 
 }
    
