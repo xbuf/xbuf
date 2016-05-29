@@ -6,6 +6,6 @@ cache:
   directories:
     - gradle-cache
 jdk:
-  - oraclejdk8
+  - oraclejdk7
 after_success:
   - '[ -n "$TRAVIS_TAG" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && ./gradlew bintrayUpload || :'
