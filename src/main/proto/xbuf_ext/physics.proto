@@ -1,9 +1,13 @@
+syntax = "proto3";
+
 package xbuf_ext;
+
 import public "xbuf/primitives.proto";
 
 message PhysicsData {
 
     enum PhysicsShape {
+        undef = 0;
         smesh = 1;
         ssphere = 2;
         shull = 3;
@@ -12,52 +16,53 @@ message PhysicsData {
         scylinder = 6;
         scone = 7;
     }
-   
-    optional RigidBody rigidbody = 1;
-    optional Constraint constraint = 2;
-}   
+
+    RigidBody rigidbody = 1;
+    Constraint constraint = 2;
+}
 
 message Constraint {
-    required string id = 1;
-    required string a_ref = 2;
-    required string b_ref = 3;
-    optional ConstraintGeneric generic = 4;   
+    string id = 1;
+    string a_ref = 2;
+    string b_ref = 3;
+    ConstraintGeneric generic = 4;
 
 }
 
 message ConstraintGeneric {
-    required xbuf.Vec3 pivotA = 1;
-    required xbuf.Vec3 pivotB = 2;
-    required xbuf.Vec3 upperLinearLimit = 3;
-    required xbuf.Vec3 lowerLinearLimit = 4;
-    required xbuf.Vec3 upperAngularLimit = 5;
-    required xbuf.Vec3 lowerAngularLimit = 6;
-    required bool disable_collisions = 7;
+    xbuf.Vec3 pivotA = 1;
+    xbuf.Vec3 pivotB = 2;
+    xbuf.Vec3 upperLinearLimit = 3;
+    xbuf.Vec3 lowerLinearLimit = 4;
+    xbuf.Vec3 upperAngularLimit = 5;
+    xbuf.Vec3 lowerAngularLimit = 6;
+    bool disable_collisions = 7;
 
 }
-   
+
 message RigidBody {
-    required string id = 1;
+    string id = 1;
 
     enum RigidBodyType {
+        undef = 0;
         tnone = 1;
         tstatic = 2;
         tdynamic = 3;
         tghost = 4;
     }
-    
-    optional RigidBodyType type = 2 [ default = tnone ];
-    optional PhysicsData.PhysicsShape shape = 3 [ default = smesh ];
-    optional float mass = 4 [ default = 1.0 ];
-    optional float friction = 5 [ default = 1.0 ];
-    optional float angularDamping = 6 [ default = 0 ];
-    optional float linearDamping = 7 [ default = 0 ];
-    optional float margin = 8 [ default = 0 ];
-    optional float restitution = 9 [ default = 0 ];
-    optional xbuf.Vec3 angularFactor = 10;
-    optional xbuf.Vec3 linearFactor = 11; 
-    optional bool isKinematic = 12 [ default=false ];
-    optional int32 collisionGroup = 13 [ default = 1 ];
-    optional int32 collisionMask = 14 [ default = 1 ];
-    
+
+    RigidBodyType type = 2; //[default = tnone ];
+    PhysicsData.PhysicsShape shape = 3; //[default = smesh ];
+    float mass = 4; //[default = 1.0 ];
+    float friction = 5; //[default = 1.0 ];
+    float angularDamping = 6; //[default = 0 ];
+    float linearDamping = 7; //[default = 0 ];
+    float margin = 8; //[default = 0 ];
+    float restitution = 9; //[default = 0 ];
+    xbuf.Vec3 angularFactor = 10;
+    xbuf.Vec3 linearFactor = 11;
+    bool isKinematic = 12; //[default=false ];
+    int32 collisionGroup = 13; //[default = 1 ];
+    int32 collisionMask = 14; //[default = 1 ];
+
 }

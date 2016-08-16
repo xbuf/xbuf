@@ -1,33 +1,35 @@
+syntax = "proto3";
+
 package xbuf;
 
 message Vec2 {
-  required float x = 1;
-  required float y = 2;
+  float x = 1;
+  float y = 2;
 }
 
 message Vec3 {
-  required float x = 1;
-  required float y = 2;
-  required float z = 3;
+  float x = 1;
+  float y = 2;
+  float z = 3;
 }
 
 message Vec4 {
-  required float x = 1;
-  required float y = 2;
-  required float z = 3;
-  required float w = 4;
+  float x = 1;
+  float y = 2;
+  float z = 3;
+  float w = 4;
 }
 
 message Color {
-  required float r = 1;
-  required float g = 2;
-  required float b = 3;
-  required float a = 4;
+  float r = 1;
+  float g = 2;
+  float b = 3;
+  float a = 4;
 }
 
 message Texture {
-  required string id = 1;
-  optional string name = 2;
+  string id = 1;
+  string name = 2;
   oneof data {
     /// path of the texture relative to asset root folder (use '/' as folder separator)
     string rpath = 3;
@@ -37,45 +39,46 @@ message Texture {
 
 message Texture2DInline {
   enum Format {
+    undef = 0;
     rgb8 = 1;
     rgba8 = 2;
     bgra8 = 3;
   }
-  required Format format = 1;
-  required uint32 width = 2;
-  required uint32 height = 3;
-  required bytes data = 4;
+  Format format = 1;
+  uint32 width = 2;
+  uint32 height = 3;
+  bytes data = 4;
 }
 
 /// Quaternion should be normalized
 message Quaternion {
-  required float x = 1;
-  required float y = 2;
-  required float z = 3;
-  required float w = 4;
+  float x = 1;
+  float y = 2;
+  float z = 3;
+  float w = 4;
 }
 
 message Mat4 {
-  required float c00 = 1;
-  required float c10 = 2;
-  required float c20 = 3;
-  required float c30 = 4;
-  required float c01 = 5;
-  required float c11 = 6;
-  required float c21 = 7;
-  required float c31 = 8;
-  required float c02 = 9;
-  required float c12 = 10;
-  required float c22 = 11;
-  required float c32 = 12;
-  required float c03 = 13;
-  required float c13 = 14;
-  required float c23 = 15;
-  required float c33 = 16;
+  float c00 = 1;
+  float c10 = 2;
+  float c20 = 3;
+  float c30 = 4;
+  float c01 = 5;
+  float c11 = 6;
+  float c21 = 7;
+  float c31 = 8;
+  float c02 = 9;
+  float c12 = 10;
+  float c22 = 11;
+  float c32 = 12;
+  float c03 = 13;
+  float c13 = 14;
+  float c23 = 15;
+  float c33 = 16;
 }
 
 message Transform {
-  required Vec3 translation = 1;
-  required Quaternion rotation = 2;
-  required Vec3 scale = 3;
+  Vec3 translation = 1;
+  Quaternion rotation = 2;
+  Vec3 scale = 3;
 }

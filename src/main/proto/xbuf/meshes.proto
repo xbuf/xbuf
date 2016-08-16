@@ -1,12 +1,14 @@
+syntax = "proto3";
+
 package xbuf;
 
 // deprecated
 // message Geometry {
 //   ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-//   required string id = 1;
+//   string id = 1;
 //   repeated Mesh meshes = 2;
 //   /// display name
-//   optional string name = 3;
+//   string name = 3;
 //   //repeated Morph morphs = 3 [packed=true];
 //   //visible bool true Whether the geometry is visible.
 //   //If the visible property is false, then the geometry should not be rendered but should still
@@ -16,6 +18,7 @@ package xbuf;
 
 message Mesh {
   enum Primitive {
+    undef = 0;
     /// "points" The mesh is composed of a set of independent points. The number of points is n, and point i is given by vertex i.
     points = 1;
     /// "lines" The mesh is composed of a set of independent lines. The number of lines is n / 2 , and line i is composed of vertices 2i and 2i+1 .
@@ -28,20 +31,21 @@ message Mesh {
     triangle_strip = 5;
   }
   ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-  required string id = 1;
-  required Primitive primitive = 2;
-  optional uint32 lod = 3 [default = 0];
+  string id = 1;
+  Primitive primitive = 2;
+  uint32 lod = 3; //[default = 0];
   ///@check every vertexArray should have the same number of elements (size / step)
   repeated VertexArray vertexArrays = 4;
   ///@check max value of every indexArray should be < number of elements of vertexArrays
   repeated IndexArray indexArrays = 5;
   /// display name
-  optional string name = 6;
-  optional Skin skin = 7;
+  string name = 6;
+  Skin skin = 7;
 }
 
 message VertexArray {
   enum Attrib {
+    undef = 0;
     position = 1;
     normal = 2;
     tangent = 3;
@@ -57,8 +61,8 @@ message VertexArray {
     texcoord8 = 13;
     texcoord9 = 14;
   }
-  required Attrib attrib = 1;
-  optional uint32 morph = 2 [default = 0];
+  Attrib attrib = 1;
+  uint32 morph = 2; //[default = 0];
   oneof buffer {
     FloatBuffer floats = 3;
     //DoubleBuffer doubles = 4;
@@ -74,17 +78,17 @@ message IndexArray {
 message FloatBuffer {
   repeated float values = 1 [packed = true];
   /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
-  required uint32 step = 2 [default = 1];
+  uint32 step = 2; //[default = 1];
 }
 // message DoubleBuffer {
 //   repeated double values = 1 [packed = true];
 //   /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
-//   required uint32 step = 2 [default = 1];
+//   uint32 step = 2; //[default = 1];
 // }
 message UintBuffer {
   repeated uint32 values = 1 [packed = true];
   /// number of float per group/entry (eg 3 for vec3, 2 for texcoord,...). the length of values should be a multiple of step
-  required uint32 step = 2 [default = 1];
+  uint32 step = 2; //[default = 1];
 }
 
 /// Create the link between a Skeleton and a Mesh

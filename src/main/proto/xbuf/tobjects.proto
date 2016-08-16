@@ -1,12 +1,14 @@
+syntax = "proto3";
+
 package xbuf;
 
 import public "xbuf/primitives.proto";
 
 message TObject {
   ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-  required string id = 1;
+  string id = 1;
   // the local transform (relative to its parent)
-  required Transform transform = 2;
+  Transform transform = 2;
   /// display name
-  optional string name = 4;
+  string name = 4;
 }

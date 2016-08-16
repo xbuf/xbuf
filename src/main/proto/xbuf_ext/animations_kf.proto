@@ -1,19 +1,21 @@
+syntax = "proto3";
+
 package xbuf_ext;
 
 message AnimationKF {
   ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-  required string id = 1;
+  string id = 1;
   /// display name
-  optional string name = 2;
+  string name = 2;
   // duration of the animation in ms
-  optional int32 duration = 3;
+  int32 duration = 3;
   repeated Clip clips = 4;
 
   enum TargetKind {
     tobject = 0;
     skeleton = 1;
   }
-  optional TargetKind target_kind = 5 [default = tobject];
+  TargetKind target_kind = 5; //[default = tobject];
 }
 
 message Clip {
@@ -49,36 +51,36 @@ message SampledTransform {
   repeated float scale_z = 11 [packed=true];
 
   /// used with skeleton
-  optional string bone_name = 20;
+  string bone_name = 20;
 }
 
 
 // message TransformKF {
-//   optional Vec3KF translation = 1;
-//   optional QuaternionKF rotation = 2;
-//   optional Vec3KF scale = 3;
+//   Vec3KF translation = 1;
+//   QuaternionKF rotation = 2;
+//   Vec3KF scale = 3;
 //   /// used with skeleton
-//   optional string bone_name = 5;
+//   string bone_name = 5;
 // }
 //
 // message Vec3KF {
-//   optional KeyPoints x = 1;
-//   optional KeyPoints y = 2;
-//   optional KeyPoints z = 3;
+//   KeyPoints x = 1;
+//   KeyPoints y = 2;
+//   KeyPoints z = 3;
 // }
 //
 // message QuaternionKF {
-//   optional KeyPoints x = 1;
-//   optional KeyPoints y = 2;
-//   optional KeyPoints z = 3;
-//   optional KeyPoints w = 4;
+//   KeyPoints x = 1;
+//   KeyPoints y = 2;
+//   KeyPoints z = 3;
+//   KeyPoints w = 4;
 // }
 //
 // message ColorKF {
-//   optional KeyPoints r = 1;
-//   optional KeyPoints g = 2;
-//   optional KeyPoints b = 3;
-//   optional KeyPoints a = 4;
+//   KeyPoints r = 1;
+//   KeyPoints g = 2;
+//   KeyPoints b = 3;
+//   KeyPoints a = 4;
 // }
 //
 // message KeyPoints {
@@ -99,9 +101,9 @@ message SampledTransform {
 // /// y are in the same range that value of KeyPoints
 // message BezierParams {
 //   /// x of handle of P0 in range [0,1]
-//   optional float h0_x = 1;
-//   optional float h0_y = 2;
+//   float h0_x = 1;
+//   float h0_y = 2;
 //   /// x of handle of P1 in range [0,1]
-//   optional float h1_x = 3;
-//   optional float h1_y = 4;
+//   float h1_x = 3;
+//   float h1_y = 4;
 // }

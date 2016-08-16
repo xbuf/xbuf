@@ -1,3 +1,5 @@
+syntax = "proto3";
+
 package xbuf;
 //option optimize_for = LITE_RUNTIME;
 
@@ -15,7 +17,7 @@ import public "xbuf_ext/physics.proto";
 
 message Data {
   /// version of the protocol / data format. readonly !! (== the major of the xbuf project version)
-  optional uint32 version = 1 [default = 20150914];
+  uint32 version = 1; //[default = 20150914];
   repeated Relation relations = 2;
   repeated TObject tobjects = 3;
   ///@deprecated use meshes directly
@@ -33,13 +35,13 @@ message Data {
   /// reserved for application specific data, no requirement to be managed by others application.
   /// eg: custom primitive properties, node material, particle, internal/private data to allow save/load
   /// Only require to avoid collision in index.
-  extensions 550 to 2000;
+  //extensions 550 to 2000;
 }
 
 // message Morph {
-//   required string id = 1;
+//   string id = 1;
 //   /// the morph targer index
-//   required uint32 index = 2 [default = 0];
+//   uint32 index = 2; //[default = 0];
 //   /// the base morph target index for relative morph target.
-//   optional uint32 base = 3;
+//   uint32 base = 3;
 // }

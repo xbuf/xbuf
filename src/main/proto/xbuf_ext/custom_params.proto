@@ -1,3 +1,5 @@
+syntax = "proto3";
+
 package xbuf_ext;
 //option optimize_for = LITE_RUNTIME;
 
@@ -8,12 +10,12 @@ import public "xbuf/primitives.proto";
 // }
 
 message CustomParamList {
-  required string id = 1;
+  string id = 1;
   repeated CustomParam params = 2;
 }
 
 message CustomParam {
-  required string name = 1;
+  string name = 1;
   oneof value {
     bool vbool = 2;
     string vstring = 3;

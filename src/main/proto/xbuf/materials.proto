@@ -1,31 +1,33 @@
+syntax = "proto3";
+
 package xbuf;
 
 import public "xbuf/primitives.proto";
 
 message Material {
   ///@check identifier (id) should be unique and invariant over a set of datas (eg: use uuid) and over time.
-  required string id = 1;
-  optional string family = 3;
+  string id = 1;
+  string family = 3;
   /// display name
-  optional string name = 4;
-  optional bool shadeless = 5 [default = true];
-  optional Color color = 10;
-  optional Texture color_map = 11;
+  string name = 4;
+  bool shadeless = 5; //[default = true];
+  Color color = 10;
+  Texture color_map = 11;
   ///@check range(0.0, 1.0)
-  optional float opacity = 12;
-  optional Texture opacity_map = 13;
-  optional Vec3 normal = 14;
-  optional Texture normal_map = 15;
+  float opacity = 12;
+  Texture opacity_map = 13;
+  Vec3 normal = 14;
+  Texture normal_map = 15;
   ///@check range(0.0, 1.0)
-  optional float roughness = 16;
-  optional Texture roughness_map = 17;
+  float roughness = 16;
+  Texture roughness_map = 17;
   ///@check range(0.0, 1.0)
-  optional float metalness = 18;
-  optional Texture metalness_map = 19;
-  optional Color specular = 20;
-  optional Texture specular_map = 21;
-  optional float specular_power = 22;
-  optional Texture specular_power_map = 23;
-  optional Color emission = 24;
-  optional Texture emission_map = 25;
+  float metalness = 18;
+  Texture metalness_map = 19;
+  Color specular = 20;
+  Texture specular_map = 21;
+  float specular_power = 22;
+  Texture specular_power_map = 23;
+  Color emission = 24;
+  Texture emission_map = 25;
 }
