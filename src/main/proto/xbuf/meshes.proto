@@ -47,9 +47,12 @@ message VertexArray {
   enum Attrib {
     undef = 0;
     position = 1;
-    normal = 2;
-    tangent = 3;
-    bitangent = 4;
+    /// deprecated, use tbn_to_model_quat * (0,0,1), keep to allow loader to load old file
+    normal = 2 [deprecated=true];
+    /// deprecated, use tbn_to_model_quat * (1,0,0), keep to allow loader to load old file
+    tangent = 3 [deprecated=true];
+    /// deprecated, use tbn_to_model_quat * (0,1,0), keep to allow loader to load old file
+    bitangent = 4 [deprecated=true];
     color = 5;
     texcoord = 6;
     texcoord2 = 7;
@@ -60,6 +63,11 @@ message VertexArray {
     texcoord7 = 12;
     texcoord8 = 13;
     texcoord9 = 14;
+    /// quaternion to convert vector from tbn space to model space
+    /// normal in model space = tbn_to_model_quat x (0, 0, 1)
+    /// tangent in model space = tbn_to_model_quat x (1, 0, 0)
+    /// value are in sequence of x,y,z,w
+    tbn_to_model_quat = 15;
   }
   Attrib attrib = 1;
   uint32 morph = 2; //[default = 0];
