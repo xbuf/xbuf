@@ -31,11 +31,11 @@ You can download files from [my repo](https://bintray.com/package/files/davidb/m
 
 # Documentation
 
-* [Motivations](https://github.com/davidB/xbuf/wiki/Motivations)
-* [FAQ](https://github.com/davidB/xbuf/wiki/FAQ)
-* [API](https://github.com/davidB/xbuf/wiki/API)
-* [Extensions List](https://github.com/davidB/xbuf/wiki/Extensions-List)
-* [Tools](https://github.com/davidB/xbuf/wiki/Tools)
+* [Motivations](http://www.xbuf.org/motivations)
+* [FAQ](http://www.xbuf.org/faq)
+* [API](http://www.xbuf.org/api)
+* [Extensions List](http://www.xbuf.org/extensions-list)
+* [Tools](http://www.xbuf.org/tools)
 
 # Links
 
@@ -47,4 +47,3 @@ You can download files from [my repo](https://bintray.com/package/files/davidb/m
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/xbuf/xbuf/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
