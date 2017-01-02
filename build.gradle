@@ -1,5 +1,5 @@
 plugins {
-	id "com.google.protobuf" version "0.7.7"
+	id "com.google.protobuf" version "0.8.0"
 	id "java"
 	id "maven-publish"
 	id "com.jfrog.bintray" version "1.6"
@@ -8,7 +8,7 @@ plugins {
 group = "org.xbuf"
 def description = "a game exchange format for 3d data"
 project.version = "git describe --always --dirty".execute().text.trim()
-println("version : '${project.version}'")
+println("version : '${project.version}' (${bintray_api_key.length() > 0} && ${version ==~ /(d+)\.(d+)\.(d+)/})")
 
 repositories {
 	jcenter()
